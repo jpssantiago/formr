@@ -6,7 +6,7 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter"
 
 import { env } from "@/env/env"
 import { sendVerificationRequestEmail } from "@/lib/emails/verification-request-email"
-import { prisma } from "@/lib/prisma"
+import prisma from "@/lib/prisma"
 
 const handler = NextAuth({
     pages: {
