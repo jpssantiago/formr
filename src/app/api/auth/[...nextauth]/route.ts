@@ -8,7 +8,7 @@ import { env } from "@/env/env"
 import { sendVerificationRequestEmail } from "@/lib/emails/verification-request-email"
 import { prisma } from "@/lib/prisma"
 
-export const handler = NextAuth({
+const handler = NextAuth({
     pages: {
         error: "/auth",
         signIn: "/auth"
