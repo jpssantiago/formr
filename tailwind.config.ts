@@ -73,6 +73,9 @@ const config = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
     },
+    screens: {
+      phone: { max: "430px" }
+    }
   },
   plugins: [require("tailwindcss-animate")],
 } satisfies Config
