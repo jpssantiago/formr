@@ -17,7 +17,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
     useEffect(() => {
         if (status == "unauthenticated") {
-            //return push("/auth")
+            return push("/auth")
         }
     }, [status])
 
