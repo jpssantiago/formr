@@ -8,11 +8,11 @@ export async function middleware(request: NextRequest) {
     const path = request.nextUrl.pathname
 
     if (!token?.email && path !== "/auth") {
-        return NextResponse.redirect(new URL("/auth", request.url))
+        //return NextResponse.redirect(new URL("/auth", request.url))
     }
 
     if (token?.email && path == "/auth") {
-        return NextResponse.redirect(new URL("/dashboard", request.url))
+        //return NextResponse.redirect(new URL("/dashboard", request.url))
     }
 }
 

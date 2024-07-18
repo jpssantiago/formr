@@ -16,7 +16,11 @@ const handler = NextAuth({
     providers: [
         EmailProvider({
             async sendVerificationRequest({ identifier, url }) {
-                await sendVerificationRequestEmail(identifier, url)
+                if (process.env.NODE_ENV == "development") {
+                    console.log(`[MAGIC-LINK] ${url}`)
+                } else {
+                    await sendVerificationRequestEmail(identifier, url)
+                }
             },
         }),
         GoogleProvider({

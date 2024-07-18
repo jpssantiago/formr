@@ -74,7 +74,8 @@ const config = {
       },
     },
     screens: {
-      phone: { max: "430px" }
+      phone: { max: "430px" },
+      tablet: { max: "1050px" }
     }
   },
   plugins: [require("tailwindcss-animate")],

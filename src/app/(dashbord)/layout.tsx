@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 
 import { LoadingContainer } from "@/components/loading-container"
+import { NavBar } from "@/components/nav-bar"
 
 type DashboardLayoutProps = {
     children?: ReactNode
@@ -16,15 +17,23 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
     useEffect(() => {
         if (status == "unauthenticated") {
-            return push("/auth")
+            //return push("/auth")
         }
     }, [status])
 
     return (
-        <div className="h-screen">
+        <div className="h-dvh">
             {status == "loading" && <LoadingContainer />}
 
-            {data && children}
+            {data && (
+                <div className="flex tablet:flex-col">
+                    <NavBar />
+
+                    <div className="p-5">
+                        {children}
+                    </div>
+                </div>
+            )}
         </div>
     )
 }
