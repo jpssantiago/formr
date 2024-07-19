@@ -1,7 +1,8 @@
 import { ElementType, ReactNode } from "react"
 import { usePathname } from "next/navigation"
-import { cn } from "@/lib/utils"
 import Link from "next/link"
+
+import { cn } from "@/lib/utils"
 
 type NavBarLinkProps = {
     href: string
