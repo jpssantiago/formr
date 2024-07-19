@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 
 import { LoadingContainer } from "@/components/loading-container"
+import { NavBar } from "@/components/nav-bar/nav-bar"
 
 type DashboardLayoutProps = {
     children?: ReactNode
@@ -21,10 +22,18 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     }, [status])
 
     return (
-        <div className="h-screen">
+        <div className="h-dvh">
             {status == "loading" && <LoadingContainer />}
 
-            {data && children}
+            {data && (
+                <div className="flex navbar:flex-col">
+                    <NavBar />
+
+                    <div className="p-10 w-full overflow-y-hidden">
+                        {children}
+                    </div>
+                </div>
+            )}
         </div>
     )
 }

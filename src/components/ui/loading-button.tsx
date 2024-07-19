@@ -9,7 +9,7 @@ type LoadingButtonProps = ButtonProps & {
 
 export function LoadingButton({ loading, ...rest }: LoadingButtonProps) {
     return (
-        <Button disabled={loading} {...rest} className={cn("flex gap-2 items-center", rest.className)}>
+        <Button {...rest} disabled={loading || rest.disabled} className={cn("flex gap-2 items-center", rest.className)}>
             {loading && (
                 <Loader2
                     className="transition-all animate-spin"

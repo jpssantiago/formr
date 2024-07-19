@@ -74,7 +74,11 @@ const config = {
       },
     },
     screens: {
-      phone: { max: "430px" }
+      phone: { max: "430px" },
+      navbar: { max: "1050px" },
+      
+      small: { max: "510px" },
+      medium: { max: "700px" } // min: "500px",
     }
   },
   plugins: [require("tailwindcss-animate")],
