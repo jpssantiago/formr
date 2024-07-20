@@ -16,6 +16,9 @@ export async function getForms() {
                     mode: "insensitive"
                 }
             },
+        },
+        orderBy: {
+            updatedAt: "desc"
         }
     })
 }

@@ -2,11 +2,15 @@
 
 import { AreaChart, ArrowUp10, EllipsisVertical } from "lucide-react"
 import { useRouter } from "next/navigation"
+import dayjs from "dayjs"
+import relativeTime from "dayjs/plugin/relativeTime"
 
 import { Form } from "@prisma/client"
 import { Button } from "@/components/ui/button"
 import { FormListItemPopover } from "./form-list-item-popover"
 import { FormAnalyticsButton } from "./form-analytics-button"
+
+dayjs.extend(relativeTime)
 
 type FormListItemProps = {
     form: Form
@@ -44,7 +48,7 @@ export function FormListItem({ form, forms }: FormListItemProps) {
 
                 <p className="flex small:flex-col items-center small:items-start gap-1 text-xs text-zinc-600">
                     <span>
-                        $updatedAt
+                        {dayjs().to(form.updatedAt)}
                     </span>
 
                     <span className="small:hidden">
