@@ -5,7 +5,9 @@ import { z } from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { toast } from "sonner"
+import { useRouter } from "next/navigation"
 
+import { Form } from "@prisma/client"
 import {
     Dialog,
     DialogClose,
@@ -20,25 +22,25 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { LoadingButton } from "@/components/ui/loading-button"
+import { FormService } from "@/services/form-service"
 
 type DeleteFormDialogProps = {
+    form: Form
     children?: ReactNode
-    // form: Form
     onClose: () => void
 }
 
-const formName = "My new form"
-
-export function DeleteFormDialog({ children, onClose }: DeleteFormDialogProps) {
+export function DeleteFormDialog({ form, children, onClose }: DeleteFormDialogProps) {
     const [show, setShow] = useState<boolean>(false)
 
     const deleteFormSchema = z.object({
-        formName: z.string().refine(val => val == formName)
+        formName: z.string().refine(val => val == form.name)
     })
 
     type DeleteFormSchemaType = z.infer<typeof deleteFormSchema>
 
-    const { handleSubmit, register, formState, reset } = useForm<DeleteFormSchemaType>({
+    const { refresh } = useRouter()
+    const { handleSubmit, register, formState, reset, setError } = useForm<DeleteFormSchemaType>({
         resolver: zodResolver(deleteFormSchema)
     })
 
@@ -58,11 +60,15 @@ export function DeleteFormDialog({ children, onClose }: DeleteFormDialogProps) {
         setShow(status)
     }
 
-    async function onSubmit({ formName }: DeleteFormSchemaType) {
+    async function onSubmit({}: DeleteFormSchemaType) {
         if (isLoading) return
 
-        await new Promise(resolve => setTimeout(resolve, 1500))
+        const response = await FormService.deleteForm(form.id)
+        if (response.err) {
+            return setError("root", { message: response.err })
+        }
 
+        refresh()
         setShow(false)
         toast.success("The form was deleted from our servers.")
         onClose()
@@ -82,7 +88,7 @@ export function DeleteFormDialog({ children, onClose }: DeleteFormDialogProps) {
                         </DialogTitle>
 
                         <DialogDescription>
-                            You&apos;re about to delete <span className="font-medium text-black">{formName}</span>. <br />
+                            You&apos;re about to delete <span className="font-medium text-black">{form.name}</span>. <br />
                             All responses this form has collected will also be
                             deleted forever. <br /><br />
                             To confirm, enter the name of this form:
@@ -102,7 +108,7 @@ export function DeleteFormDialog({ children, onClose }: DeleteFormDialogProps) {
                     )}
 
                     <Input
-                        placeholder={formName}
+                        placeholder={form.name}
                         {...register("formName")}
                     />
 

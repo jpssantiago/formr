@@ -5,7 +5,9 @@ import { z } from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { toast } from "sonner"
+import { useRouter } from "next/navigation"
 
+import { Form } from "@prisma/client"
 import {
     Dialog,
     DialogClose,
@@ -19,21 +21,21 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { LoadingButton } from "@/components/ui/loading-button"
+import { FormService } from "@/services/form-service"
 
 type RenameFormDialogProps = {
+    form: Form
     children: ReactNode
     onClose: () => void
 }
 
-export function RenameFormDialog({ children, onClose }: RenameFormDialogProps) {
-    const formName = "My new form"
-
+export function RenameFormDialog({ form, children, onClose }: RenameFormDialogProps) {
     const renameFormSchema = z.object({
         formName: z.string().min(1, {
             message: "Every form needs a name 😁."
         }).max(60, {
             message: "The name can't have more than 60 characters."
-        }).refine(val => val != formName, {
+        }).refine(val => val != form.name, {
             message: "The new name can't be the same as the old one."
         })
     })
@@ -42,10 +44,11 @@ export function RenameFormDialog({ children, onClose }: RenameFormDialogProps) {
 
     const [show, setShow] = useState<boolean>(false)
 
-    const { handleSubmit, register, formState, reset } = useForm<RenameFormSchemaType>({
+    const { refresh } = useRouter()
+    const { handleSubmit, register, formState, reset, setError } = useForm<RenameFormSchemaType>({
         resolver: zodResolver(renameFormSchema),
         defaultValues: {
-            formName
+            formName: form.name
         }
     })
 
@@ -64,8 +67,12 @@ export function RenameFormDialog({ children, onClose }: RenameFormDialogProps) {
     }
 
     async function onSubmit({ formName }: RenameFormSchemaType) {
-        await new Promise(resolve => setTimeout(resolve, 1500))
+        const response = await FormService.renameForm(form.id, formName)
+        if (response.err) {
+            return setError("root", { message: response.err })
+        }
 
+        refresh()
         setShow(false)
         onClose()
         toast.success(`The form was renamed to "${formName}".`)

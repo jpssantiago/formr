@@ -21,8 +21,9 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  // Optional for WebAuthn support
-  Authenticator Authenticator[]
+
+  forms Form[]
+  folders Folder[]
  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -66,19 +67,28 @@ model VerificationToken {
  
   @@id([identifier, token])
 }
- 
-// Optional for WebAuthn support
-model Authenticator {
-  credentialID         String  @unique
-  userId               String
-  providerAccountId    String
-  credentialPublicKey  String
-  counter              Int
-  credentialDeviceType String
-  credentialBackedUp   Boolean
-  transports           String?
- 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
-  @@id([userId, credentialID])
+
+model Folder {
+  id String @id @default(cuid())
+  name String
+
+  forms Form[]
+
+  user User @relation(fields: [userId], references: [id])
+  userId String
+}
+
+model Form {
+  id String @id @default(cuid())
+  name String
+  isPublished Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  author User @relation(fields: [authorId], references: [id])
+  authorId String
+
+  folder Folder? @relation(fields: [folderId], references: [id])
+  folderId String?
 }

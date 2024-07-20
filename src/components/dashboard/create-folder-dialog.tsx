@@ -6,10 +6,12 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { toast } from "sonner"
 
+import { Folder } from "@prisma/client"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Input } from "@/components/ui/input"
 import { LoadingButton } from "@/components/ui/loading-button"
+import { FolderService } from "@/services/folder-service"
 
 const createFolderSchema = z.object({
     name: z.string().min(1, {
@@ -23,12 +25,13 @@ type CreateFolderSchemaType = z.infer<typeof createFolderSchema>
 
 type CreateFolderDialogProps = {
     children: ReactNode
+    onCreateFolder?: (folder: Folder) => void
 }
 
-export function CreateFolderDialog({ children }: CreateFolderDialogProps) {
+export function CreateFolderDialog({ children, onCreateFolder }: CreateFolderDialogProps) {
     const [show, setShow] = useState<boolean>(false)
 
-    const { handleSubmit, register, formState, reset } = useForm<CreateFolderSchemaType>({
+    const { handleSubmit, register, formState, reset, setError } = useForm<CreateFolderSchemaType>({
         resolver: zodResolver(createFolderSchema)
     })
 
@@ -48,7 +51,14 @@ export function CreateFolderDialog({ children }: CreateFolderDialogProps) {
     async function onSubmit({ name }: CreateFolderSchemaType) {
         if (isLoading) return
 
-        await new Promise(resolve => setTimeout(resolve, 1500))
+        const response = await FolderService.createFolder(name)
+        if (response.err) {
+            return setError("root", { message: response.err })
+        }
+
+        if (onCreateFolder && response.folder) {
+            onCreateFolder(response.folder)
+        }
 
         reset()
         setShow(false)

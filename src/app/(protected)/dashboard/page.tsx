@@ -1,14 +1,15 @@
-import { FileType, FolderPlus } from "lucide-react"
 import Link from "next/link"
+import { FileType, FolderPlus } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { FormListItem } from "@/components/dashboard/form-list-item"
 import { CreateFolderDialog } from "@/components/dashboard/create-folder-dialog"
+import { getForms } from "@/actions/get-forms"
 
-const forms = Array.from({ length: 7 })
+export default async function DashboardPage() {
+    const forms = await getForms()
 
-export default function DashboardPage() {
     return (
         <div className="space-y-10">
             <Header />
@@ -16,12 +17,14 @@ export default function DashboardPage() {
             <Separator />
 
             <div className="flex flex-col gap-4">
-                {forms.length == 0 ? (
+                {forms?.length == 0 ? (
                     <NoFormsIndicator />
                 ) : (
-                    forms.map((_, index) => (
+                    forms?.map((form) => (
                         <FormListItem 
-                            key={index}
+                            key={form.id}
+                            form={form}
+                            forms={forms}
                         />
                     ))
                 )}

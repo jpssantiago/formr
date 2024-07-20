@@ -1,57 +1,68 @@
 "use client"
 
-import { AreaChart, ArrowUp10, EllipsisVertical, Home } from "lucide-react"
+import { AreaChart, ArrowUp10, EllipsisVertical } from "lucide-react"
 import { useRouter } from "next/navigation"
 
+import { Form } from "@prisma/client"
 import { Button } from "@/components/ui/button"
 import { FormListItemPopover } from "./form-list-item-popover"
 import { FormAnalyticsButton } from "./form-analytics-button"
 
-export function FormListItem() {
+type FormListItemProps = {
+    form: Form
+    forms: Form[]
+}
+
+export function FormListItem({ form, forms }: FormListItemProps) {
     const { push } = useRouter()
 
     function onClick() {
         push(`/form/id`)
     }
 
+    let formName = form.name
+    const formsWithSameName: Form[] = []
+
+    forms.forEach(f => {
+        if (f.name == form.name) {
+            formsWithSameName.push(f)
+        }
+    })
+
+    formsWithSameName.forEach((f, index) => {
+        if (f.id == form.id) {
+            formName = index == 0 ? form.name : `${formName} (${index})`
+        }
+    })
+
     return (
         <div onClick={onClick} className="flex justify-between items-center small:items-start hover:bg-zinc-100 px-5 py-3 border rounded-lg transition-colors cursor-pointer group">
-            <div className="flex items-center gap-3">
-                <span className="small:hidden text-2xl">
-                    🚀
-                </span>
+            <div className="small:flex small:flex-col small:gap-2 space-y-1">
+                <h1 className="font-medium truncate">
+                    {formName}
+                </h1>
 
-                <div className="small:flex small:flex-col small:gap-2 space-y-1">
-                    <h1 className="small:hidden font-medium truncate">
-                        My new form
-                    </h1>
+                <p className="flex small:flex-col items-center small:items-start gap-1 text-xs text-zinc-600">
+                    <span>
+                        $updatedAt
+                    </span>
 
-                    <h1 className="small:block hidden font-medium truncate">
-                        🚀 My new form
-                    </h1>
+                    <span className="small:hidden">
+                        •
+                    </span>
 
-                    <p className="flex small:flex-col items-center small:items-start gap-1 text-xs text-zinc-600">
-                        <span>
-                            4h ago
-                        </span>
+                    <span>
+                        {form.isPublished ? "Public" : "Private"}
+                    </span>
 
-                        <span className="small:hidden">
-                            •
-                        </span>
+                    <span className="small:hidden">
+                        •
+                    </span>
 
-                        <span>
-                            Public
-                        </span>
-
-                        <span className="small:hidden">
-                            •
-                        </span>
-
-                        <span>
-                            8 questions
-                        </span>
-                    </p>
-                </div>
+                    <span>
+                        {"{x}"} questions
+                    </span>
+                </p>
             </div>
 
             <div className="flex small:flex-col items-center gap-2">
@@ -63,7 +74,7 @@ export function FormListItem() {
                     0 replies
                 </FormAnalyticsButton>
 
-                <FormListItemPopover>
+                <FormListItemPopover form={form}>
                     <Button size="icon" variant="ghost" className="hover:bg-zinc-200 border" onClick={e => e.stopPropagation()}>
                         <EllipsisVertical
                             size={20}
