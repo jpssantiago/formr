@@ -33,6 +33,8 @@ export function FormListItem({ form, forms }: FormListItemProps) {
         }
     })
 
+    formsWithSameName.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
+
     formsWithSameName.forEach((f, index) => {
         if (f.id == form.id) {
             formName = index == 0 ? form.name : `${formName} (${index})`
