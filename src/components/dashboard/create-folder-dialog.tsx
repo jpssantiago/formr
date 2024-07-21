@@ -5,6 +5,7 @@ import { z } from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { toast } from "sonner"
+import { useRouter } from "next/navigation"
 
 import { Folder } from "@prisma/client"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
@@ -16,8 +17,8 @@ import { FolderService } from "@/services/folder-service"
 const createFolderSchema = z.object({
     name: z.string().min(1, {
         message: "Every folder needs a name 😁."
-    }).max(50, {
-        message: "The name can't have more than 50 characters."
+    }).max(60, {
+        message: "The name can't have more than 60 characters."
     })
 })
 
@@ -26,11 +27,13 @@ type CreateFolderSchemaType = z.infer<typeof createFolderSchema>
 type CreateFolderDialogProps = {
     children: ReactNode
     onCreateFolder?: (folder: Folder) => void
+    asChild?: boolean
 }
 
-export function CreateFolderDialog({ children, onCreateFolder }: CreateFolderDialogProps) {
+export function CreateFolderDialog({ children, onCreateFolder, asChild = false }: CreateFolderDialogProps) {
     const [show, setShow] = useState<boolean>(false)
 
+    const { refresh } = useRouter()
     const { handleSubmit, register, formState, reset, setError } = useForm<CreateFolderSchemaType>({
         resolver: zodResolver(createFolderSchema)
     })
@@ -44,7 +47,7 @@ export function CreateFolderDialog({ children, onCreateFolder }: CreateFolderDia
         if (!status) {
             reset()
         }
-        
+
         setShow(status)
     }
 
@@ -60,6 +63,7 @@ export function CreateFolderDialog({ children, onCreateFolder }: CreateFolderDia
             onCreateFolder(response.folder)
         }
 
+        refresh()
         reset()
         setShow(false)
         toast.success(`The folder "${name}" was created.`)
@@ -67,7 +71,7 @@ export function CreateFolderDialog({ children, onCreateFolder }: CreateFolderDia
 
     return (
         <Dialog open={show} onOpenChange={onShowChange}>
-            <DialogTrigger asChild>
+            <DialogTrigger className="w-full" asChild={asChild}>
                 {children}
             </DialogTrigger>
 
@@ -101,7 +105,7 @@ export function CreateFolderDialog({ children, onCreateFolder }: CreateFolderDia
                         {...register("name")}
                     />
 
-                    <LoadingButton loading={isLoading}> 
+                    <LoadingButton loading={isLoading}>
                         Create folder
                     </LoadingButton>
                 </form>

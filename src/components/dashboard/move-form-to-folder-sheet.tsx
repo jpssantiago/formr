@@ -20,6 +20,7 @@ import { Button } from "@/components/ui/button"
 import { LoadingButton } from "@/components/ui/loading-button"
 import { CreateFolderDialog } from "./create-folder-dialog"
 import { FormService } from "@/services/form-service"
+import { CreateFolderTrigger } from "./create-folder-trigger"
 
 type MoveFormToFolderSheetProps = {
     form: Form
@@ -113,15 +114,7 @@ export function MoveFormToFolderSheet({ form, children, onCloseSheet }: MoveForm
                     ))}
 
                     <CreateFolderDialog onCreateFolder={onCreateFolder}>
-                        <div className="flex items-center gap-3 bg-zinc-100 hover:bg-zinc-100 px-3 border rounded-lg w-full h-10 text-zinc-600 hover:text-black transition-all cursor-pointer">
-                            <FolderPlus
-                                size={20}
-                            />
-
-                            <p className="text-sm">
-                                Create a new folder
-                            </p>
-                        </div>
+                        <CreateFolderTrigger />
                     </CreateFolderDialog>
                 </div>
 
