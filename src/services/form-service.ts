@@ -16,7 +16,7 @@ type DuplicateFormResponse = DefaultFormResponse
 export const FormService = {
     async moveFormToFolder(formId: string, folderId?: string): Promise<MoveFormToFolderResponse> {
         try {
-            const response = await fetch(`/api/folder/${formId}/`, {
+            const response = await fetch(`/api/form/${formId}/folder`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

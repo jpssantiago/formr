@@ -50,7 +50,7 @@ export function FormListItem({ form, forms }: FormListItemProps) {
 
                 <p className="flex small:flex-col items-center small:items-start gap-1 text-xs text-zinc-600">
                     <span>
-                        {dayjs().to(form.updatedAt)}
+                        {dayjs().to(form.createdAt)}
                     </span>
 
                     <span className="small:hidden">
