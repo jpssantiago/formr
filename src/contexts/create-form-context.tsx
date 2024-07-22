@@ -51,6 +51,12 @@ export function CreateFormProvider({ children }: { children: ReactNode }) {
             return q
         })
 
+        if (question.order == questions.length - 1) {
+            setSelectedQuestion(questions[question.order - 1])
+        } else {
+            setSelectedQuestion(questions[question.order + 1])
+        }
+
         setQuestions(arr)
     }
 
@@ -75,6 +81,7 @@ export function CreateFormProvider({ children }: { children: ReactNode }) {
         arr.sort((a, b) => a.order - b.order)
 
         setQuestions(arr)
+        setSelectedQuestion(newQuestion)
     }
 
     function selectQuestion(question: Question) {
