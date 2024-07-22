@@ -38,7 +38,20 @@ export function CreateFormProvider({ children }: { children: ReactNode }) {
     }
 
     function deleteQuestion(question: Question) {
-        setQuestions(questions.filter(q => q.id != question.id))
+        if (questions.length == 1) return
+        
+        const arr = questions.filter(q => q.id != question.id).map(q => {
+            if (q.order >= question.order) {
+                return {
+                    ...q,
+                    order: q.order - 1
+                }
+            }
+            
+            return q
+        })
+
+        setQuestions(arr)
     }
 
     function duplicateQuestion(question: Question) {

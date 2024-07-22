@@ -16,7 +16,7 @@ type QuestionListItemPopoverProps = {
 }
 
 export function QuestionListItemPopover({ question, children, show, setShow }: QuestionListItemPopoverProps) {
-    const { duplicateQuestion, deleteQuestion } = useCreateForm()
+    const { duplicateQuestion, deleteQuestion, questions } = useCreateForm()
 
     function onDuplicate() {
         duplicateQuestion(question)
@@ -38,10 +38,12 @@ export function QuestionListItemPopover({ question, children, show, setShow }: Q
                     <PopoverItemText>Duplicate</PopoverItemText>
                 </PopoverItem>
 
-                <PopoverItem variant="destructive" onClick={onDelete}>
-                    <PopoverItemIcon icon={Trash2} />
-                    <PopoverItemText>Delete</PopoverItemText>
-                </PopoverItem>
+                {questions.length > 1 && (
+                    <PopoverItem variant="destructive" onClick={onDelete}>
+                        <PopoverItemIcon icon={Trash2} />
+                        <PopoverItemText>Delete</PopoverItemText>
+                    </PopoverItem>
+                )}
             </PopoverContent>
         </Popover>
     )
