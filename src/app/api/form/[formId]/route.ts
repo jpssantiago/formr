@@ -5,6 +5,15 @@ import { getUser } from "@/actions/get-user"
 import { prisma } from "@/lib/prisma"
 import { getForm } from "@/actions/get-form"
 
+export async function GET(_: Request, { params }: { params: { formId: string } }) {
+    const form = await getForm(params.formId)
+    if (!form) {
+        return new NextResponse("Form not found", { status: 404 })
+    }
+
+    return NextResponse.json({ form })
+}
+
 // Duplicate form
 export async function POST(_: Request, { params }: { params: { formId: string } }) {
     const user = await getUser()

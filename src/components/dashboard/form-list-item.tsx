@@ -21,7 +21,7 @@ export function FormListItem({ form, forms }: FormListItemProps) {
     const { push } = useRouter()
 
     function onClick() {
-        push(`/form/id`)
+        push(`/form/${form.id}/create`)
     }
 
     let formName = form.name
