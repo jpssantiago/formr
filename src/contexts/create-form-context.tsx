@@ -1,6 +1,7 @@
 "use client"
 
 import { createContext, ReactNode, useContext, useState } from "react"
+import { createId } from "@paralleldrive/cuid2"
 
 import { Question } from "@/models/question"
 import { QUESTION_LIST } from "@/_data/questions"
@@ -43,11 +44,24 @@ export function CreateFormProvider({ children }: { children: ReactNode }) {
     function duplicateQuestion(question: Question) {
         const newQuestion = {
             ...question,
-            order: questions.length,
-            id: "" // CUID() instead.
+            order: question.order + 1,
+            id: createId()
         }
 
-        setQuestions([...questions, newQuestion])
+        const arr = [...questions.map(q => {
+            if (q.order > question.order) {
+                return {
+                    ...q,
+                    order: q.order + 1
+                }
+            }
+
+            return q
+        }), newQuestion]
+
+        arr.sort((a, b) => a.order - b.order)
+
+        setQuestions(arr)
     }
 
     function selectQuestion(question: Question) {

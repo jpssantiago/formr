@@ -1,5 +1,6 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import { toast } from "sonner"
 import { Link } from "lucide-react"
 
@@ -14,8 +15,14 @@ type FormPublishedDialog = {
 }
 
 export function FormPublishedDialog({ open, setOpen, formId }: FormPublishedDialog) {
-    const url = `${window.origin}/f/${formId}`
+    const [url, setUrl] = useState<string>("")
 
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            setUrl(`${window.origin}/f/${formId}`)
+        }
+    }, [])
+    
     function onCopy() {
         navigator.clipboard.writeText(url)
         toast.success("The link was copied to your clipboard.")

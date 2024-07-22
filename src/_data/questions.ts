@@ -9,7 +9,7 @@ export const QUESTION_LIST: Question[] = [
         buttonText: "Submit"
     }, {
         id: "1",
-        title: "",
+        title: "Question 2",
         description: "",
         order: 1,
         buttonText: "Continue"
