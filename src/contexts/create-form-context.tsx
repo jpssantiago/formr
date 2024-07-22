@@ -51,10 +51,12 @@ export function CreateFormProvider({ children }: { children: ReactNode }) {
             return q
         })
 
-        if (question.order == questions.length - 1) {
-            setSelectedQuestion(questions[question.order - 1])
-        } else {
-            setSelectedQuestion(questions[question.order + 1])
+        if (selectedQuestion.id == question.id) {
+            if (question.order == questions.length - 1) {
+                setSelectedQuestion(questions[question.order - 1])
+            } else {
+                setSelectedQuestion(questions[question.order + 1])
+            }
         }
 
         setQuestions(arr)
