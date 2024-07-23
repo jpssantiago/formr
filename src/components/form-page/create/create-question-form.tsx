@@ -6,6 +6,8 @@ import { Question } from "@/models/question"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { useCreateForm } from "@/contexts/create-form-context"
+import { InputQuestion } from "@/components/question-types/input-question"
+import { TextareaQuestion } from "@/components/question-types/textarea-question"
 
 type CreateQuestionFormProps = {
     question: Question
@@ -15,8 +17,8 @@ export function CreateQuestionForm({ question }: CreateQuestionFormProps) {
     const { selectedQuestion, updateQuestion } = useCreateForm()
 
     return (
-        <div className="flex items-start gap-2 w-full max-w-[500px]">
-            <div className="flex items-center gap-2 mt-0.5 text-blue-500">
+        <div className="flex items-start gap-3 w-full max-w-[500px]">
+            <div className="flex items-center gap-1 mt-0.5 text-[#0545AF]">
                 <p className="font-medium tabular-nums">
                     {selectedQuestion.order + 1}
                 </p>
@@ -64,7 +66,15 @@ export function CreateQuestionForm({ question }: CreateQuestionFormProps) {
                 </div>
 
                 <div>
-                    options
+                    {(question.type.category.slug == "input" || question.type.slug == "shortText") && (
+                        <InputQuestion question={question} />
+                    )}
+
+                    {question.type.slug == "longText" && (
+                        <TextareaQuestion />
+                    )}
+                    {question.type.category.slug == "choice" && <p>choice</p>}
+                    {question.type.category.slug == "rating" && <p>rating</p>}
                 </div>
 
                 <Button className="px-8 w-fit">

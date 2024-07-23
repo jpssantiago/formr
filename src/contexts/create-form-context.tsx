@@ -41,10 +41,10 @@ export function CreateFormProvider({ children }: { children: ReactNode }) {
         setAutoSave(setTimeout(() => {
             setIsSaving(true)
             new Promise(resolve => setTimeout(resolve, 1500)).then(() => setIsSaving(false))
-        }, 4000))
+        }, 3000))
     }
 
-    function updateQuestion(question: Question) {
+    function updateQuestion(question: Question) {        
         setSelectedQuestion(question)
 
         setQuestions(questions.map(q => {

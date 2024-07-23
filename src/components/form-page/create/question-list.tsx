@@ -7,7 +7,7 @@ export function QuestionList() {
     const { questions, selectedQuestion, selectQuestion } = useCreateForm()
 
     return (
-        <div className="space-y-1 bg-[#F7F7F6] bg-scroll custom-scroll p-3 rounded-lg w-80 h-full overflow-y-auto">
+        <div className="space-y-1 bg-zinc-100 bg-scroll custom-scroll p-3 rounded-lg w-60 h-full overflow-y-auto">
             {questions.map((question) => (
                 <QuestionListItem
                     key={question.id}
