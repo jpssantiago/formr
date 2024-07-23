@@ -20,7 +20,7 @@ export function InputQuestion({ question }: { question: Question }) {
             break
         case "shortText":
         default:
-            placeholder = "..."
+            placeholder = "Your answer..."
     }
 
     return (

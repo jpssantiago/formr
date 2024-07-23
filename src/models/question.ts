@@ -1,4 +1,4 @@
-import { ElementType } from "react"
+import { QuestionType } from "./question-type"
 
 export type Question = {
     id: string
@@ -6,21 +6,11 @@ export type Question = {
     description?: string
     order: number
     buttonText: string
+
+    isRequired: boolean
     
     type: QuestionType
 
     minValue?: number
     maxValue?: number
-}
-
-export type QuestionCategory = {
-    slug: string
-    color: string
-}
-
-export type QuestionType = {
-    slug: string
-    icon: ElementType
-    name: string
-    category: QuestionCategory
 }

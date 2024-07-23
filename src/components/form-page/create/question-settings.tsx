@@ -61,17 +61,18 @@ export function QuestionSettings() {
 
                     <Switch
                         id="required"
+                        checked={selectedQuestion.isRequired}
+                        onCheckedChange={checked => {
+                            updateQuestion({
+                                ...selectedQuestion,
+                                isRequired: checked
+                            })
+                        }}
                     />
                 </div>
 
-
-
-                {selectedQuestion.type.slug == "number" && (
+                {(selectedQuestion.type.slug == "number" || selectedQuestion.type.category.slug == "text") && (
                     <MinMaxValueOption />
-                )}
-
-                {selectedQuestion.type.category.slug == "text" && (
-                    <p>min/max chars</p>
                 )}
 
                 <Separator />

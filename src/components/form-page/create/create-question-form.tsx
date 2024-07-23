@@ -31,7 +31,7 @@ export function CreateQuestionForm({ question }: CreateQuestionFormProps) {
             <div className="flex flex-col gap-4 w-full">
                 <div className="space-y-2">
                     <Textarea
-                        placeholder="Question goes here..."
+                        placeholder="Your question here..."
                         className="p-0 border-none focus-visible:ring-0 focus-visible:ring-offset-0 w-full h-7 min-h-7 font-medium text-xl resize-none"
                         value={selectedQuestion.title}
                         onChange={e => {
@@ -65,7 +65,7 @@ export function CreateQuestionForm({ question }: CreateQuestionFormProps) {
                     />
                 </div>
 
-                <div>
+                <div className="space-y-2">
                     {(question.type.category.slug == "input" || question.type.slug == "shortText") && (
                         <InputQuestion question={question} />
                     )}

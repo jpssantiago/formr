@@ -1,6 +1,6 @@
-import { ArrowDown, Link, Mail, Phone, WrapText, Text, Hash, Calendar } from "lucide-react"
+import { Link, Mail, Phone, WrapText, Text, Hash, Calendar, ToggleRight, Laugh } from "lucide-react"
 
-import { QuestionType } from "@/models/question"
+import { QuestionType } from "@/models/question-type"
 import { CATEGORY_LIST } from "./categories"
 
 export const TYPE_LIST: QuestionType[] = [
@@ -39,5 +39,15 @@ export const TYPE_LIST: QuestionType[] = [
         icon: Calendar,
         name: "Date",
         category: CATEGORY_LIST.find(c => c.slug == "input")!,
+    }, {
+        slug: "yesNo",
+        icon: ToggleRight,
+        name: "Yes / No",
+        category: CATEGORY_LIST.find(c => c.slug == "choice")!,
+    }, {
+        slug: "emoji",
+        icon: Laugh,
+        name: "Emoji",
+        category: CATEGORY_LIST.find(c => c.slug == "rating")!,
     }
 ]

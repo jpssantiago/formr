@@ -5,12 +5,14 @@ import { createId } from "@paralleldrive/cuid2"
 
 import { Question } from "@/models/question"
 import { QUESTION_LIST } from "@/_data/questions"
+import { QuestionType } from "@/models/question-type"
 
 type CreateFormContextType = {
     questions: Question[]
     updateQuestion: (question: Question) => void
     deleteQuestion: (question: Question) => void
     duplicateQuestion: (question: Question) => void
+    addQuestion: (type: QuestionType) => void
 
     selectedQuestion: Question
     selectQuestion: (question: Question) => void
@@ -108,6 +110,23 @@ export function CreateFormProvider({ children }: { children: ReactNode }) {
         triggerAutoSave()
     }
 
+    function addQuestion(type: QuestionType) {
+        const question = {
+            id: createId(),
+            order: questions.length,
+            title: "",
+            description: "",
+            isRequired: false,
+            buttonText: "Continue",
+            type,
+        }
+
+        setQuestions([...questions, question])
+        setSelectedQuestion(question)
+
+        triggerAutoSave()
+    }
+
     function selectQuestion(question: Question) {
         setSelectedQuestion(question)
     }
@@ -117,6 +136,7 @@ export function CreateFormProvider({ children }: { children: ReactNode }) {
         updateQuestion,
         deleteQuestion,
         duplicateQuestion,
+        addQuestion,
 
         selectedQuestion,
         selectQuestion,

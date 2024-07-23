@@ -16,11 +16,11 @@ export function MinMaxValueOption() {
             <div className="flex flex-col gap-2">
                 <div className="flex justify-between items-center">
                     <Label htmlFor="minNumber" className="font-normal text-sm">
-                        Min number
+                        Min {selectedQuestion.type.slug == "number" ? "number" : "characters"}
                     </Label>
 
                     <Switch
-                        id="minNumber"
+                        id="minValue"
                         checked={hasMin}
                         onCheckedChange={() => {
                             updateQuestion({
@@ -37,9 +37,14 @@ export function MinMaxValueOption() {
                         type="number"
                         value={selectedQuestion.minValue}
                         onChange={e => {
+                            let value = Number(e.target.value)
+                            if (selectedQuestion.maxValue && value > selectedQuestion.maxValue) {
+                                value = selectedQuestion.maxValue
+                            } 
+
                             updateQuestion({
                                 ...selectedQuestion,
-                                minValue: Number(e.target.value)
+                                minValue: value
                             })
                         }}
                     />
@@ -49,16 +54,16 @@ export function MinMaxValueOption() {
             <div className="flex flex-col gap-2">
                 <div className="flex justify-between items-center">
                     <Label htmlFor="maxNumber" className="font-normal text-sm">
-                        Max number
+                        Max {selectedQuestion.type.slug == "number" ? "number" : "characters"}
                     </Label>
 
                     <Switch
-                        id="maxNumber"
+                        id="mavValue"
                         checked={hasMax}
                         onCheckedChange={() => {
                             updateQuestion({
                                 ...selectedQuestion,
-                                maxValue: hasMax ? undefined : 1
+                                maxValue: hasMax ? undefined : (selectedQuestion.minValue ?? 1)
                             })
                         }}
                     />
@@ -71,9 +76,14 @@ export function MinMaxValueOption() {
                         type="number"
                         value={selectedQuestion.maxValue}
                         onChange={e => {
+                            let value = Number(e.target.value)
+                            if (selectedQuestion.minValue && value < selectedQuestion.minValue) {
+                                value = selectedQuestion.minValue
+                            } 
+
                             updateQuestion({
                                 ...selectedQuestion,
-                                maxValue: Number(e.target.value)
+                                maxValue: value
                             })
                         }}
                     />
