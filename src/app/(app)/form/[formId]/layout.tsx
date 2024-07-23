@@ -2,7 +2,7 @@ import { ReactNode } from "react"
 import { redirect } from "next/navigation"
 
 import { getForm } from "@/actions/get-form"
-import { TopBar } from "@/components/form-page/top-bar"
+import { TopBar } from "@/components/form-page/top-bar/top-bar"
 
 type FormPageLayoutProps = {
     children: ReactNode

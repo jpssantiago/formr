@@ -5,7 +5,7 @@ import { toast } from "sonner"
 import { Globe, Send } from "lucide-react"
 
 import { LoadingButton } from "@/components/ui/loading-button"
-import { FormPublishedDialog } from "./create/form-published-dialog"
+import { FormPublishedDialog } from "./form-published-dialog"
 
 type PublishFormButtonProps = {
     formId: string

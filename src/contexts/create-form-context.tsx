@@ -14,6 +14,8 @@ type CreateFormContextType = {
 
     selectedQuestion: Question
     selectQuestion: (question: Question) => void
+
+    isSaving: boolean
 }
 
 const CreateFormContext = createContext({} as CreateFormContextType)
@@ -25,21 +27,39 @@ export function useCreateForm() {
 export function CreateFormProvider({ children }: { children: ReactNode }) {
     const [questions, setQuestions] = useState<Question[]>(QUESTION_LIST)
     const [selectedQuestion, setSelectedQuestion] = useState<Question>(questions[0])
+    const [isSaving, setIsSaving] = useState<boolean>(false)
+    const [autoSave, setAutoSave] = useState<NodeJS.Timeout | null>(null)
+
+    function triggerAutoSave() {
+        if (autoSave) {
+            clearTimeout(autoSave)
+            setAutoSave(null)
+        }
+
+        if (isSaving) return
+
+        setAutoSave(setTimeout(() => {
+            setIsSaving(true)
+            new Promise(resolve => setTimeout(resolve, 1500)).then(() => setIsSaving(false))
+        }, 4000))
+    }
 
     function updateQuestion(question: Question) {
         setSelectedQuestion(question)
-        
+
         setQuestions(questions.map(q => {
             if (question.id == q.id)
                 return question
-            
+
             return q
         }))
+
+        triggerAutoSave()
     }
 
     function deleteQuestion(question: Question) {
         if (questions.length == 1) return
-        
+
         const arr = questions.filter(q => q.id != question.id).map(q => {
             if (q.order >= question.order) {
                 return {
@@ -47,7 +67,7 @@ export function CreateFormProvider({ children }: { children: ReactNode }) {
                     order: q.order - 1
                 }
             }
-            
+
             return q
         })
 
@@ -60,6 +80,7 @@ export function CreateFormProvider({ children }: { children: ReactNode }) {
         }
 
         setQuestions(arr)
+        triggerAutoSave()
     }
 
     function duplicateQuestion(question: Question) {
@@ -84,12 +105,13 @@ export function CreateFormProvider({ children }: { children: ReactNode }) {
 
         setQuestions(arr)
         setSelectedQuestion(newQuestion)
+        triggerAutoSave()
     }
 
     function selectQuestion(question: Question) {
         setSelectedQuestion(question)
     }
-    
+
     const value = {
         questions,
         updateQuestion,
@@ -97,9 +119,11 @@ export function CreateFormProvider({ children }: { children: ReactNode }) {
         duplicateQuestion,
 
         selectedQuestion,
-        selectQuestion
+        selectQuestion,
+
+        isSaving
     }
-    
+
     return (
         <CreateFormContext.Provider value={value}>
             {children}
