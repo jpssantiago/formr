@@ -34,8 +34,28 @@ export async function POST(_: Request, { params }: { params: { formId: string } 
             authorId: user.id
         }
     })
+    if (!form) {
+        return new NextResponse("Form not duplicated", { status: 500 })
+    }
 
-    return NextResponse.json(form)
+    const questions = await prisma.question.findMany({ where: { formId: params.formId } })
+    for (let question of questions) {
+        await prisma.question.create({
+            data: {
+                title: question.title,
+                description: question.description,
+                order: question.order,
+                isRequired: question.isRequired,
+                buttonText: question.buttonText,
+                type: question.type,
+                minValue: question.minValue,
+                maxValue: question.maxValue,
+                formId: form.id
+            }
+        })
+    }
+
+    return NextResponse.json({ form })
 }
 
 const putBodySchema = z.object({
