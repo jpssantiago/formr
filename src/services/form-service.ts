@@ -1,20 +1,12 @@
 import { Form } from "@prisma/client"
 
-type DefaultFormResponse = {
+export type FormResponse = {
     form?: Form
     err?: string
 }
 
-type MoveFormToFolderResponse = DefaultFormResponse
-
-type RenameFormResponse = DefaultFormResponse
-
-type DeleteFormResponse = DefaultFormResponse
-
-type DuplicateFormResponse = DefaultFormResponse
-
 export const FormService = {
-    async moveFormToFolder(formId: string, folderId?: string): Promise<MoveFormToFolderResponse> {
+    async moveFormToFolder(formId: string, folderId?: string): Promise<FormResponse> {
         try {
             const response = await fetch(`/api/form/${formId}/folder`, {
                 method: "POST",
@@ -29,11 +21,11 @@ export const FormService = {
             const data = await response.json()
             return { form: data.form }
         } catch {
-            return { err: "err" }
+            return { err: "server-not-responding" }
         }
     },
 
-    async renameForm(formId: string, name: string): Promise<RenameFormResponse> {
+    async renameForm(formId: string, name: string): Promise<FormResponse> {
         try {
             const response = await fetch(`/api/form/${formId}`, {
                 method: "PUT",
@@ -47,11 +39,11 @@ export const FormService = {
 
             return { form: data.form }
         } catch {
-            return { err: "err" }
+            return { err: "server-not-responding" }
         }
     },
 
-    async deleteForm(formId: string): Promise<DeleteFormResponse> {
+    async deleteForm(formId: string): Promise<FormResponse> {
         try {
             const response = await fetch(`/api/form/${formId}`, {
                 method: "DELETE"
@@ -61,11 +53,11 @@ export const FormService = {
 
             return { form: data.form }
         } catch {
-            return { err: "err" }
+            return { err: "server-not-responding" }
         }
     },
 
-    async duplicateForm(formId: string): Promise<DuplicateFormResponse> {
+    async duplicateForm(formId: string): Promise<FormResponse> {
         try {   
             const response = await fetch(`/api/form/${formId}`, {
                 method: "POST"
@@ -75,7 +67,45 @@ export const FormService = {
 
             return { form: data.form }
         } catch {
-            return { err: "err" }
+            return { err: "server-not-responding" }
+        }
+    },
+
+    async createForm(): Promise<FormResponse> {
+        try {
+            const response = await fetch("/api/form", {
+                method: "POST"
+            })
+
+            const data = await response.json()
+            console.log(data)
+            return { form: data.form }
+        } catch {
+            return { err: "server-not-responding" }
+        }
+    },
+
+    async getForm(id: string): Promise<FormResponse> {
+        try {
+            const response = await fetch(`/api/form/${id}`)
+
+            const data = await response.json()
+            return { form: data.form }
+        } catch {
+            return { err: "server-not-responding" }
+        }
+    },
+
+    async publishForm(id: string): Promise<FormResponse> {
+        try {
+            const response = await fetch(`/api/form/${id}/publish`, {
+                method: "PUT"
+            })
+
+            const data = await response.json()
+            return { form: data.form }
+        } catch {  
+            return { err: "server-not-responding" }
         }
     }
 }

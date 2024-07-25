@@ -21,7 +21,7 @@ export function FormListItem({ form, forms }: FormListItemProps) {
     const { push } = useRouter()
 
     function onClick() {
-        push(`/form/id`)
+        push(`/form/${form.id}/create`)
     }
 
     let formName = form.name
@@ -59,14 +59,6 @@ export function FormListItem({ form, forms }: FormListItemProps) {
 
                     <span>
                         {form.isPublished ? "Public" : "Private"}
-                    </span>
-
-                    <span className="small:hidden">
-                        •
-                    </span>
-
-                    <span>
-                        {"{x}"} questions
                     </span>
                 </p>
             </div>

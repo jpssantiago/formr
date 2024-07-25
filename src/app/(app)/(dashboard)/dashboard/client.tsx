@@ -1,8 +1,9 @@
 "use client"
 
 import { useState } from "react"
-import Link from "next/link"
 import { FileType, FolderOpen } from "lucide-react"
+import { toast } from "sonner"
+import { useRouter } from "next/navigation"
 
 import { Folder, Form } from "@prisma/client"
 import { Separator } from "@/components/ui/separator"
@@ -10,6 +11,8 @@ import { FolderCarouselItem } from "@/components/dashboard/folder-carousel-item"
 import { FormListItem } from "@/components/dashboard/form-list-item"
 import { Button } from "@/components/ui/button"
 import { ManageFoldersDialog } from "@/components/dashboard/manage-folders-dialog"
+import { LoadingButton } from "@/components/ui/loading-button"
+import { FormService } from "@/services/form-service"
 
 type DashboardClientPageProps = {
     forms: Form[]
@@ -78,6 +81,25 @@ export function DashboardClientPage({ forms, folders }: DashboardClientPageProps
 }
 
 function Header({ folders }: { folders: Folder[] }) {
+    const [isLoading, setIsLoading] = useState<boolean>(false)
+
+    const { push } = useRouter()
+
+    async function onCreateForm() {
+        if (isLoading) return
+
+        setIsLoading(true)
+        const response = await FormService.createForm()
+        setIsLoading(false)
+
+        if (response.err) {
+            return toast.error(response.err)
+        }
+
+        if (response.form)
+            push(`/form/${response.form.id}`)
+    }
+
     return (
         <div className="flex small:flex-col justify-between items-center gap-10 w-full">
             <div className="space-y-1 small:text-center">
@@ -91,11 +113,9 @@ function Header({ folders }: { folders: Folder[] }) {
             </div>
 
             <div className="flex medium:flex-col-reverse gap-2">
-                <Link href="/form">
-                    <Button className="medium:w-full">
-                        Create a new form
-                    </Button>
-                </Link>
+                <LoadingButton loading={isLoading} onClick={onCreateForm} className="medium:w-full">
+                    Create a new form
+                </LoadingButton>
 
                 <ManageFoldersDialog folders={folders}>
                     <Button variant="outline">

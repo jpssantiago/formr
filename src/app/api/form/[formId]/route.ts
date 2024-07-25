@@ -5,6 +5,15 @@ import { getUser } from "@/actions/get-user"
 import { prisma } from "@/lib/prisma"
 import { getForm } from "@/actions/get-form"
 
+export async function GET(_: Request, { params }: { params: { formId: string } }) {
+    const form = await getForm(params.formId)
+    if (!form) {
+        return new NextResponse("Form not found", { status: 404 })
+    }
+
+    return NextResponse.json({ form })
+}
+
 // Duplicate form
 export async function POST(_: Request, { params }: { params: { formId: string } }) {
     const user = await getUser()
@@ -25,15 +34,34 @@ export async function POST(_: Request, { params }: { params: { formId: string } 
             authorId: user.id
         }
     })
+    if (!form) {
+        return new NextResponse("Form not duplicated", { status: 500 })
+    }
 
-    return NextResponse.json(form)
+    const questions = await prisma.question.findMany({ where: { formId: params.formId } })
+    for (let question of questions) {
+        await prisma.question.create({
+            data: {
+                title: question.title,
+                description: question.description,
+                order: question.order,
+                isRequired: question.isRequired,
+                buttonText: question.buttonText,
+                type: question.type,
+                minValue: question.minValue,
+                maxValue: question.maxValue,
+                formId: form.id
+            }
+        })
+    }
+
+    return NextResponse.json({ form })
 }
 
 const putBodySchema = z.object({
     name: z.string().min(1).max(60)
 })
 
-// Update form
 export async function PUT(request: Request, { params }: { params: { formId: string } }) {    
     const { data: body } = putBodySchema.safeParse(await request.json())
     if (!body) {
@@ -57,7 +85,6 @@ export async function PUT(request: Request, { params }: { params: { formId: stri
     return NextResponse.json({ form })
 } 
 
-// Delete form
 export async function DELETE(_: Request, { params }: { params: { formId: string } }) {
     const user = await getUser()
     if (!user) {
