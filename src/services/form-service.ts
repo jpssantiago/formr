@@ -1,6 +1,6 @@
 import { Form } from "@prisma/client"
 
-type FormResponse = {
+export type FormResponse = {
     form?: Form
     err?: string
 }
@@ -92,6 +92,19 @@ export const FormService = {
             const data = await response.json()
             return { form: data.form }
         } catch {
+            return { err: "server-not-responding" }
+        }
+    },
+
+    async publishForm(id: string): Promise<FormResponse> {
+        try {
+            const response = await fetch(`/api/form/${id}/publish`, {
+                method: "PUT"
+            })
+
+            const data = await response.json()
+            return { form: data.form }
+        } catch {  
             return { err: "server-not-responding" }
         }
     }

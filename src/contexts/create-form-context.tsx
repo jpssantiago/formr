@@ -7,8 +7,10 @@ import { TQuestion } from "@/models/question"
 import { TQuestionType } from "@/models/question-type"
 import { TForm } from "@/models/form"
 import { QuestionService } from "@/services/question-service"
+import { FormResponse, FormService } from "@/services/form-service"
 
 type CreateFormContextType = {
+    form?: TForm
     loadForm: (form: TForm) => void
 
     questions: TQuestion[]
@@ -19,6 +21,8 @@ type CreateFormContextType = {
 
     selectedQuestion?: TQuestion
     selectQuestion: (question: TQuestion) => void
+
+    publishForm: () => Promise<FormResponse>
 
     isSaving: boolean
 }
@@ -155,7 +159,22 @@ export function CreateFormProvider({ children }: { children: ReactNode }) {
         setSelectedQuestion(question)
     }
 
+    async function publishForm() {
+        if (!form) return { err: "No form" }
+
+        const response = await FormService.publishForm(form.id)
+        if (response.form) {
+            setForm({
+                ...form,
+                isPublished: response.form.isPublished
+            })
+        }
+
+        return response
+    }
+
     const value = {
+        form,
         loadForm,
 
         questions,
@@ -167,7 +186,9 @@ export function CreateFormProvider({ children }: { children: ReactNode }) {
         selectedQuestion,
         selectQuestion,
 
-        isSaving
+        publishForm,
+
+        isSaving,
     }
 
     return (

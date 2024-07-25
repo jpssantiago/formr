@@ -6,6 +6,7 @@ import { Globe, Send } from "lucide-react"
 
 import { LoadingButton } from "@/components/ui/loading-button"
 import { FormPublishedDialog } from "./form-published-dialog"
+import { useCreateForm } from "@/contexts/create-form-context"
 
 type PublishFormButtonProps = {
     formId: string
@@ -13,32 +14,36 @@ type PublishFormButtonProps = {
 
 export function PublishFormButton({ formId }: PublishFormButtonProps) { 
     const [isLoading, setIsLoading] = useState<boolean>(false)
-    const [isPublished, setIsPublished] = useState<boolean>(false)
     const [open, setOpen] = useState<boolean>(false)
+
+    const { form, publishForm } = useCreateForm()
 
     async function onPublish() {
         if (isLoading) return
 
         setIsLoading(true)
-        await new Promise(resolve => setTimeout(resolve, 3000))
+        const response = await publishForm()
         setIsLoading(false)
 
-        setIsPublished(true)
+        if (response.err) {
+            return toast.error(response.err)
+        }
+
         setOpen(true)
         toast.success("Changes published!")
     }
 
     return (
-        <LoadingButton onClick={onPublish} loading={isLoading} disabled={isLoading || isPublished} className="flex items-center gap-3">
+        <LoadingButton onClick={onPublish} loading={isLoading} disabled={isLoading || form?.isPublished} className="flex items-center gap-3">
             {!isLoading && (
-                isPublished ? (
+                form?.isPublished ? (
                     <Globe  size={18} />
                 ) : (
                     <Send size={18} />
                 )
             )}
 
-            {isPublished ? "Published" : "Publish"}
+            {form?.isPublished ? "Published" : "Publish"}
 
             <FormPublishedDialog
                 open={open}
