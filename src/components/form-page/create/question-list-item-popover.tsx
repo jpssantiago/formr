@@ -3,13 +3,13 @@
 import { ReactNode } from "react"
 import { Copy, Trash2 } from "lucide-react"
 
-import { Question } from "@/models/question"
+import { TQuestion } from "@/models/question"
 import { useCreateForm } from "@/contexts/create-form-context"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { PopoverItem, PopoverItemIcon, PopoverItemText } from "@/components/ui/popover-item"
 
 type QuestionListItemPopoverProps = {
-    question: Question
+    question: TQuestion
     show: boolean
     setShow: (show: boolean) => void
     children: ReactNode

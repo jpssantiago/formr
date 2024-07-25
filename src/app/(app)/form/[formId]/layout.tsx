@@ -2,7 +2,8 @@ import { ReactNode } from "react"
 import { redirect } from "next/navigation"
 
 import { getForm } from "@/actions/get-form"
-import { TopBar } from "@/components/form-page/top-bar/top-bar"
+import { TForm } from "@/models/form"
+import FormPageClientLayout from "./client"
 
 type FormPageLayoutProps = {
     children: ReactNode
@@ -19,11 +20,8 @@ export default async function FormPageLayout({ children, params }: FormPageLayou
     }
 
     return (
-        <div className="flex flex-col gap-5 px-5 py-1 h-dvh">
-            <TopBar formId={params.formId} />
-
+        <FormPageClientLayout form={(form as any)}>
             {children}
-        </div>
-
+        </FormPageClientLayout>
     )
 }

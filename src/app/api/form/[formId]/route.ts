@@ -42,7 +42,6 @@ const putBodySchema = z.object({
     name: z.string().min(1).max(60)
 })
 
-// Update form
 export async function PUT(request: Request, { params }: { params: { formId: string } }) {    
     const { data: body } = putBodySchema.safeParse(await request.json())
     if (!body) {
@@ -66,7 +65,6 @@ export async function PUT(request: Request, { params }: { params: { formId: stri
     return NextResponse.json({ form })
 } 
 
-// Delete form
 export async function DELETE(_: Request, { params }: { params: { formId: string } }) {
     const user = await getUser()
     if (!user) {

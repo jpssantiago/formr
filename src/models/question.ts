@@ -1,6 +1,6 @@
-import { QuestionType } from "./question-type"
+import { TQuestionType } from "./question-type"
 
-export type Question = {
+export type TQuestion = {
     id: string
     title: string
     description?: string
@@ -9,7 +9,7 @@ export type Question = {
 
     isRequired: boolean
     
-    type: QuestionType
+    type: TQuestionType
 
     minValue?: number
     maxValue?: number

@@ -8,15 +8,15 @@ import { Input } from "@/components/ui/input"
 export function MinMaxValueOption() {
     const { selectedQuestion, updateQuestion } = useCreateForm()
 
-    const hasMin = !!selectedQuestion.minValue
-    const hasMax = !!selectedQuestion.maxValue
+    const hasMin = !!selectedQuestion?.minValue
+    const hasMax = !!selectedQuestion?.maxValue
 
     return (
         <>
             <div className="flex flex-col gap-2">
                 <div className="flex justify-between items-center">
                     <Label htmlFor="minNumber" className="font-normal text-sm">
-                        Min {selectedQuestion.type.slug == "number" ? "number" : "characters"}
+                        Min {selectedQuestion?.type.slug == "number" ? "number" : "characters"}
                     </Label>
 
                     <Switch
@@ -24,7 +24,7 @@ export function MinMaxValueOption() {
                         checked={hasMin}
                         onCheckedChange={() => {
                             updateQuestion({
-                                ...selectedQuestion,
+                                ...selectedQuestion!,
                                 minValue: hasMin ? undefined : 1
                             })
                         }}
@@ -54,7 +54,7 @@ export function MinMaxValueOption() {
             <div className="flex flex-col gap-2">
                 <div className="flex justify-between items-center">
                     <Label htmlFor="maxNumber" className="font-normal text-sm">
-                        Max {selectedQuestion.type.slug == "number" ? "number" : "characters"}
+                        Max {selectedQuestion?.type.slug == "number" ? "number" : "characters"}
                     </Label>
 
                     <Switch
@@ -62,8 +62,8 @@ export function MinMaxValueOption() {
                         checked={hasMax}
                         onCheckedChange={() => {
                             updateQuestion({
-                                ...selectedQuestion,
-                                maxValue: hasMax ? undefined : (selectedQuestion.minValue ?? 1)
+                                ...selectedQuestion!,
+                                maxValue: hasMax ? undefined : (selectedQuestion?.minValue ?? 1)
                             })
                         }}
                     />

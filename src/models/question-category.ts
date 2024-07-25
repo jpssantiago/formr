@@ -1,4 +1,4 @@
-export type QuestionCategory = {
+export type TQuestionCategory = {
     slug: string
     name: string
     color: string

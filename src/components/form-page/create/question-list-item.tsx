@@ -1,14 +1,14 @@
 "use client"
 
 import { useState } from "react"
-import { CaseSensitive, EllipsisVertical } from "lucide-react"
+import { EllipsisVertical } from "lucide-react"
 
-import { Question } from "@/models/question"
+import { TQuestion } from "@/models/question"
 import { cn } from "@/lib/utils"
 import { QuestionListItemPopover } from "./question-list-item-popover"
 
 type QuestionListItemProps = {
-    question: Question
+    question: TQuestion
     onSelect: () => void
     isSelected: boolean
 }

@@ -1,6 +1,6 @@
-import { QuestionCategory } from "@/models/question-category"
+import { TQuestionCategory } from "@/models/question-category"
 
-export const CATEGORY_LIST: QuestionCategory[] = [
+export const QUESTION_TYPES_CATEGORIES: TQuestionCategory[] = [
     {
         slug: "input",
         name: "Validated Inputs",

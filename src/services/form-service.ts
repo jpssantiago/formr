@@ -78,16 +78,16 @@ export const FormService = {
             })
 
             const data = await response.json()
+            console.log(data)
             return { form: data.form }
         } catch {
             return { err: "server-not-responding" }
         }
     },
 
-    async getForm(id: string) {
+    async getForm(id: string): Promise<FormResponse> {
         try {
-            const response = await fetch(`/api/form/${id}`, {
-            })
+            const response = await fetch(`/api/form/${id}`)
 
             const data = await response.json()
             return { form: data.form }

@@ -1,21 +1,24 @@
 "use client"
 
-import { createContext, ReactNode, useContext, useState } from "react"
+import { createContext, ReactNode, useContext, useEffect, useState } from "react"
 import { createId } from "@paralleldrive/cuid2"
 
-import { Question } from "@/models/question"
-import { QUESTION_LIST } from "@/_data/questions"
-import { QuestionType } from "@/models/question-type"
+import { TQuestion } from "@/models/question"
+import { TQuestionType } from "@/models/question-type"
+import { TForm } from "@/models/form"
+import { QuestionService } from "@/services/question-service"
 
 type CreateFormContextType = {
-    questions: Question[]
-    updateQuestion: (question: Question) => void
-    deleteQuestion: (question: Question) => void
-    duplicateQuestion: (question: Question) => void
-    addQuestion: (type: QuestionType) => void
+    loadForm: (form: TForm) => void
 
-    selectedQuestion: Question
-    selectQuestion: (question: Question) => void
+    questions: TQuestion[]
+    updateQuestion: (question: TQuestion) => void
+    deleteQuestion: (question: TQuestion) => void
+    duplicateQuestion: (question: TQuestion) => void
+    addQuestion: (type: TQuestionType) => void
+
+    selectedQuestion?: TQuestion
+    selectQuestion: (question: TQuestion) => void
 
     isSaving: boolean
 }
@@ -27,12 +30,22 @@ export function useCreateForm() {
 }
 
 export function CreateFormProvider({ children }: { children: ReactNode }) {
-    const [questions, setQuestions] = useState<Question[]>(QUESTION_LIST)
-    const [selectedQuestion, setSelectedQuestion] = useState<Question>(questions[0])
+    const [form, setForm] = useState<TForm | undefined>(undefined)
+    const [questions, setQuestions] = useState<TQuestion[]>([])
+    const [selectedQuestion, setSelectedQuestion] = useState<TQuestion | undefined>(undefined)
     const [isSaving, setIsSaving] = useState<boolean>(false)
     const [autoSave, setAutoSave] = useState<NodeJS.Timeout | null>(null)
+    const [shouldSave, setShouldSave] = useState<boolean>(false)
 
-    function triggerAutoSave() {
+    function loadForm(form: TForm) {
+        setForm(form)
+        setQuestions(form.questions)
+        setSelectedQuestion(form.questions[0])
+    }
+
+    useEffect(() => {
+        if (!form || !shouldSave) return
+
         if (autoSave) {
             clearTimeout(autoSave)
             setAutoSave(null)
@@ -40,26 +53,32 @@ export function CreateFormProvider({ children }: { children: ReactNode }) {
 
         if (isSaving) return
 
-        setAutoSave(setTimeout(() => {
+        setAutoSave(setTimeout(async () => {
             setIsSaving(true)
-            new Promise(resolve => setTimeout(resolve, 1500)).then(() => setIsSaving(false))
+            await QuestionService.saveQuestions(form.id, questions)
+            setIsSaving(false)
+            setShouldSave(false)
         }, 3000))
-    }
+    }, [questions])
 
-    function updateQuestion(question: Question) {        
+    function updateQuestion(question: TQuestion) {
+        if (!form) return
+
         setSelectedQuestion(question)
 
         setQuestions(questions.map(q => {
-            if (question.id == q.id)
+            if (question.id == q.id) {
                 return question
+            }
 
             return q
         }))
 
-        triggerAutoSave()
+        setShouldSave(true)
     }
 
-    function deleteQuestion(question: Question) {
+    function deleteQuestion(question: TQuestion) {
+        if (!form) return
         if (questions.length == 1) return
 
         const arr = questions.filter(q => q.id != question.id).map(q => {
@@ -73,26 +92,28 @@ export function CreateFormProvider({ children }: { children: ReactNode }) {
             return q
         })
 
-        if (selectedQuestion.id == question.id) {
-            if (question.order == questions.length - 1) {
-                setSelectedQuestion(questions[question.order - 1])
+        if (selectedQuestion?.id == question.id) {
+            if (question.order == form.questions.length - 1) {
+                setSelectedQuestion(form.questions[question.order - 1])
             } else {
-                setSelectedQuestion(questions[question.order + 1])
+                setSelectedQuestion(form.questions[question.order + 1])
             }
         }
 
         setQuestions(arr)
-        triggerAutoSave()
+        setShouldSave(true)
     }
 
-    function duplicateQuestion(question: Question) {
+    function duplicateQuestion(question: TQuestion) {
+        if (!form) return
+
         const newQuestion = {
             ...question,
             order: question.order + 1,
             id: createId()
         }
 
-        const arr = [...questions.map(q => {
+        const arr = questions.map(q => {
             if (q.order > question.order) {
                 return {
                     ...q,
@@ -101,16 +122,20 @@ export function CreateFormProvider({ children }: { children: ReactNode }) {
             }
 
             return q
-        }), newQuestion]
+        })
+
+        arr.push(question)
 
         arr.sort((a, b) => a.order - b.order)
 
         setQuestions(arr)
         setSelectedQuestion(newQuestion)
-        triggerAutoSave()
+        setShouldSave(true)
     }
 
-    function addQuestion(type: QuestionType) {
+    function addQuestion(type: TQuestionType) {
+        if (!form) return
+
         const question = {
             id: createId(),
             order: questions.length,
@@ -123,15 +148,16 @@ export function CreateFormProvider({ children }: { children: ReactNode }) {
 
         setQuestions([...questions, question])
         setSelectedQuestion(question)
-
-        triggerAutoSave()
+        setShouldSave(true)
     }
 
-    function selectQuestion(question: Question) {
+    function selectQuestion(question: TQuestion) {
         setSelectedQuestion(question)
     }
 
     const value = {
+        loadForm,
+
         questions,
         updateQuestion,
         deleteQuestion,

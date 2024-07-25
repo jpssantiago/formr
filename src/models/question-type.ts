@@ -1,10 +1,10 @@
 import { ElementType } from "react"
 
-import { QuestionCategory } from "./question-category"
+import { TQuestionCategory } from "./question-category"
 
-export type QuestionType = {
+export type TQuestionType = {
     slug: string
     icon: ElementType
     name: string
-    category: QuestionCategory
+    category: TQuestionCategory
 }

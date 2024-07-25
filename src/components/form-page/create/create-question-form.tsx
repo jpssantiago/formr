@@ -2,7 +2,7 @@
 
 import { ArrowRight } from "lucide-react"
 
-import { Question } from "@/models/question"
+import { TQuestion } from "@/models/question"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { useCreateForm } from "@/contexts/create-form-context"
@@ -10,7 +10,7 @@ import { InputQuestion } from "@/components/question-types/input-question"
 import { TextareaQuestion } from "@/components/question-types/textarea-question"
 
 type CreateQuestionFormProps = {
-    question: Question
+    question?: TQuestion
 }
 
 export function CreateQuestionForm({ question }: CreateQuestionFormProps) {
@@ -20,7 +20,7 @@ export function CreateQuestionForm({ question }: CreateQuestionFormProps) {
         <div className="flex items-start gap-3 w-full max-w-[500px]">
             <div className="flex items-center gap-1 mt-0.5 text-[#0545AF]">
                 <p className="font-medium tabular-nums">
-                    {selectedQuestion.order + 1}
+                    {selectedQuestion && selectedQuestion.order + 1}
                 </p>
 
                 <ArrowRight
@@ -33,10 +33,10 @@ export function CreateQuestionForm({ question }: CreateQuestionFormProps) {
                     <Textarea
                         placeholder="Your question here..."
                         className="p-0 border-none focus-visible:ring-0 focus-visible:ring-offset-0 w-full h-7 min-h-7 font-medium text-xl resize-none"
-                        value={selectedQuestion.title}
+                        value={selectedQuestion?.title}
                         onChange={e => {
                             updateQuestion({
-                                ...selectedQuestion,
+                                ...selectedQuestion!,
                                 title: e.target.value
                             })
                         }}
@@ -50,10 +50,10 @@ export function CreateQuestionForm({ question }: CreateQuestionFormProps) {
                     <Textarea
                         placeholder="Description (optional)"
                         className="p-0 border-none focus-visible:ring-0 focus-visible:ring-offset-0 w-full h-6 min-h-6 text-base text-zinc-500 placeholder:text-zinc-500 resize-none"
-                        value={selectedQuestion.description}
+                        value={selectedQuestion?.description}
                         onChange={e => {
                             updateQuestion({
-                                ...selectedQuestion,
+                                ...selectedQuestion!,
                                 description: e.target.value
                             })
                         }}
@@ -66,19 +66,19 @@ export function CreateQuestionForm({ question }: CreateQuestionFormProps) {
                 </div>
 
                 <div className="space-y-2">
-                    {(question.type.category.slug == "input" || question.type.slug == "shortText") && (
+                    {(question?.type.category.slug == "input" || question?.type.slug == "shortText") && (
                         <InputQuestion question={question} />
                     )}
 
-                    {question.type.slug == "longText" && (
+                    {question?.type.slug == "longText" && (
                         <TextareaQuestion />
                     )}
-                    {question.type.category.slug == "choice" && <p>choice</p>}
-                    {question.type.category.slug == "rating" && <p>rating</p>}
+                    {question?.type.category.slug == "choice" && <p>choice</p>}
+                    {question?.type.category.slug == "rating" && <p>rating</p>}
                 </div>
 
                 <Button className="px-8 w-fit">
-                    {question.buttonText ?? "Continue"}
+                    {question?.buttonText ?? "Continue"}
                 </Button>
             </div>
         </div>

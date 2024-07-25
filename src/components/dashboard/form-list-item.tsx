@@ -60,14 +60,6 @@ export function FormListItem({ form, forms }: FormListItemProps) {
                     <span>
                         {form.isPublished ? "Public" : "Private"}
                     </span>
-
-                    <span className="small:hidden">
-                        •
-                    </span>
-
-                    <span>
-                        {"{x}"} questions
-                    </span>
                 </p>
             </div>
 

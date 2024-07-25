@@ -1,8 +1,8 @@
-import { Question } from "@/models/question"
+import { TQuestion } from "@/models/question"
 import { CountryCodeSelector } from "@/components/ui/country-code-selector"
 import { BorderInput } from "@/components/ui/border-input"
 
-export function InputQuestion({ question }: { question: Question }) {
+export function InputQuestion({ question }: { question: TQuestion }) {
     let placeholder = ""
 
     switch (question.type.slug) {

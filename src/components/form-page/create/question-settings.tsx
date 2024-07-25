@@ -6,38 +6,50 @@ import { Separator } from "@/components/ui/separator"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { TYPE_LIST } from "@/_data/types"
+import { QUESTION_TYPES } from "@/data/types"
 import { cn } from "@/lib/utils"
 import { MinMaxValueOption } from "./min-max-value-option"
 
 export function QuestionSettings() {
     const { selectedQuestion, updateQuestion } = useCreateForm()
 
+    const types = QUESTION_TYPES.sort((b, a) => {
+        if (a.category.slug < b.category.slug) {
+            return -1
+        }
+
+        if (a.category.slug > b.category.slug) {
+            return 1
+        }
+
+        return 0
+    })
+
     return (
         <div className="flex flex-col gap-4 bg-zinc-100 p-3 rounded-lg w-60 h-full">
             <Select
-                value={selectedQuestion.type.slug}
+                value={selectedQuestion?.type.slug}
                 onValueChange={slug => {
                     updateQuestion({
-                        ...selectedQuestion,
-                        type: TYPE_LIST.find(type => type.slug == slug)!
+                        ...selectedQuestion!,
+                        type: QUESTION_TYPES.find(type => type.slug == slug)!
                     })
                 }}
             >
                 <SelectTrigger>
                     <SelectValue>
                         <div className="flex items-center gap-3 text-sm">
-                            <div className={cn("p-1.5 rounded-lg", selectedQuestion.type.category.color)}>
-                                {<selectedQuestion.type.icon size={16} />}
+                            <div className={cn("p-1.5 rounded-lg", selectedQuestion?.type.category.color)}>
+                                {selectedQuestion && <selectedQuestion.type.icon size={16} />}
                             </div>
 
-                            {selectedQuestion.type.name}
+                            {selectedQuestion?.type.name}
                         </div>
                     </SelectValue>
                 </SelectTrigger>
 
                 <SelectContent>
-                    {TYPE_LIST.map(type => (
+                    {types.map(type => (
                         <SelectItem key={type.slug} value={type.slug} className="p-2 [&_.select-check]:hidden">
                             <div className="flex items-center gap-3 text-sm">
                                 <div className={cn("p-1.5 rounded-lg", type.category.color)}>
@@ -61,17 +73,17 @@ export function QuestionSettings() {
 
                     <Switch
                         id="required"
-                        checked={selectedQuestion.isRequired}
+                        checked={selectedQuestion?.isRequired}
                         onCheckedChange={checked => {
                             updateQuestion({
-                                ...selectedQuestion,
+                                ...selectedQuestion!,
                                 isRequired: checked
                             })
                         }}
                     />
                 </div>
 
-                {(selectedQuestion.type.slug == "number" || selectedQuestion.type.category.slug == "text") && (
+                {(selectedQuestion?.type.slug == "number" || selectedQuestion?.type.category.slug == "text") && (
                     <MinMaxValueOption />
                 )}
 
@@ -84,10 +96,10 @@ export function QuestionSettings() {
 
                     <Input
                         placeholder="Continue"
-                        value={selectedQuestion.buttonText}
+                        value={selectedQuestion?.buttonText ?? ""}
                         onChange={e => {
                             updateQuestion({
-                                ...selectedQuestion,
+                                ...selectedQuestion!,
                                 buttonText: e.target.value
                             })
                         }}
