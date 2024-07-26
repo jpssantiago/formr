@@ -4,6 +4,7 @@ import { Toaster } from "sonner"
 
 import { SessionWrapper } from "@/components/session-wrapper"
 import { CreateFormProvider } from "@/contexts/create-form-context"
+import { TooltipProvider } from "@/components/ui/tooltip"
 import "./globals.css"
 
 const inter = Inter({ subsets: ["latin"] });
@@ -21,13 +22,15 @@ export default function RootLayout({
   return (
     <SessionWrapper>
       <CreateFormProvider>
-        <html lang="en">
-          <body className={inter.className}>
-            {children}
+        <TooltipProvider>
+          <html lang="en">
+            <body className={inter.className}>
+              {children}
 
-            <Toaster richColors closeButton />
-          </body>
-        </html>
+              <Toaster richColors closeButton />
+            </body>
+          </html>
+        </TooltipProvider>
       </CreateFormProvider>
     </SessionWrapper>
   );
