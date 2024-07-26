@@ -21,7 +21,7 @@ export function FormItem({ questions }: FormItemProps) {
     }
 
     return (
-        <div className="h-full">
+        <div className="px-5 h-full">
             {(["input", "text"].includes(currentQuestion.type.category.slug)) && (
                 <InputQuestionForm
                     question={currentQuestion}

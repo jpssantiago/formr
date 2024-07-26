@@ -128,7 +128,7 @@ export function CreateFormProvider({ children }: { children: ReactNode }) {
             return q
         })
 
-        arr.push(question)
+        arr.push(newQuestion)
 
         arr.sort((a, b) => a.order - b.order)
 

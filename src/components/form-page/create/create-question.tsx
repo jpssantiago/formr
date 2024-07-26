@@ -7,7 +7,7 @@ export function CreateQuestion() {
     const { selectedQuestion } = useCreateForm()
 
     return (
-        <div className="flex flex-col justify-center items-center border rounded-lg size-full">
+        <div className="flex flex-col justify-center items-center p-5 border rounded-lg size-full">
             <CreateQuestionForm
                 question={selectedQuestion}
             />

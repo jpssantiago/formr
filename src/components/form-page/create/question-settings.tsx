@@ -26,7 +26,7 @@ export function QuestionSettings() {
     })
 
     return (
-        <div className="flex flex-col gap-4 bg-zinc-100 p-3 rounded-lg w-60 h-full">
+        <div className="flex flex-col gap-4 large:hidden bg-zinc-100 p-3 rounded-lg w-60 h-full">
             <Select
                 value={selectedQuestion?.type.slug}
                 onValueChange={slug => {

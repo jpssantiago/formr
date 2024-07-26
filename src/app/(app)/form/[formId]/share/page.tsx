@@ -31,8 +31,8 @@ export default function ShareFormPage() {
 
     return (
         <div className="flex flex-col gap-5 mb-5 h-full">
-            <div className="flex items-center gap-2 bg-zinc-100 px-3 py-2 rounded-lg w-full">
-                <div className="flex flex-1 items-center gap-2">
+            <div className="flex medium:flex-col items-center gap-2 bg-zinc-100 px-3 py-2 rounded-lg w-full">
+                <div className="flex flex-1 medium:flex-auto items-center gap-2 medium:w-full">
                     <Input
                         value={url}
                         className="h-9"
@@ -44,57 +44,59 @@ export default function ShareFormPage() {
                     </IconButton>
                 </div>
 
-                <Separator orientation="vertical" className="h-6" />
+                <Separator orientation="vertical" className="medium:hidden h-6" />
 
-                <CustomizeFormLinkDialog>
-                    <IconButton
-                        icon={Pen}
-                        iconSize={18}
-                        className="hover:bg-zinc-200 h-9 text-zinc-600 hover:text-black"
-                        variant="ghost"
-                    >
-                        Customize
-                    </IconButton>
-                </CustomizeFormLinkDialog>
-
-                <Separator orientation="vertical" className="h-6" />
-
-                <div className="flex items-center gap-2">
-                    <TooltipWrapper tooltip="Email link">
-                        <Button
-                            size="icon"
+                <div className="flex medium:justify-between items-center gap-2 medium:w-full">
+                    <CustomizeFormLinkDialog>
+                        <IconButton
+                            icon={Pen}
+                            iconSize={18}
+                            className="hover:bg-zinc-200 medium:w-fit h-9 text-zinc-600 hover:text-black"
                             variant="ghost"
-                            className="hover:bg-zinc-200 h-9 text-zinc-600 hover:text-black"
                         >
-                            <Mail
-                                size={18}
-                            />
-                        </Button>
-                    </TooltipWrapper>
+                            Customize
+                        </IconButton>
+                    </CustomizeFormLinkDialog>
 
-                    <TooltipWrapper tooltip="QR Code link">
-                        <Button
-                            size="icon"
-                            variant="ghost"
-                            className="hover:bg-zinc-200 h-9 text-zinc-600 hover:text-black"
-                        >
-                            <QrCode
-                                size={18}
-                            />
-                        </Button>
-                    </TooltipWrapper>
+                    <Separator orientation="vertical" className="medium:hidden h-6" />
 
-                    <TooltipWrapper tooltip="LinkedIn">
-                        <Button
-                            size="icon"
-                            variant="ghost"
-                            className="hover:bg-zinc-200 h-9 text-zinc-600 hover:text-black"
-                        >
-                            <Linkedin
-                                size={18}
-                            />
-                        </Button>
-                    </TooltipWrapper>
+                    <div className="flex items-center gap-2">
+                        <TooltipWrapper tooltip="Email link">
+                            <Button
+                                size="icon"
+                                variant="ghost"
+                                className="hover:bg-zinc-200 h-9 text-zinc-600 hover:text-black"
+                            >
+                                <Mail
+                                    size={18}
+                                />
+                            </Button>
+                        </TooltipWrapper>
+
+                        <TooltipWrapper tooltip="QR Code link">
+                            <Button
+                                size="icon"
+                                variant="ghost"
+                                className="hover:bg-zinc-200 h-9 text-zinc-600 hover:text-black"
+                            >
+                                <QrCode
+                                    size={18}
+                                />
+                            </Button>
+                        </TooltipWrapper>
+
+                        <TooltipWrapper tooltip="LinkedIn">
+                            <Button
+                                size="icon"
+                                variant="ghost"
+                                className="hover:bg-zinc-200 h-9 text-zinc-600 hover:text-black"
+                            >
+                                <Linkedin
+                                    size={18}
+                                />
+                            </Button>
+                        </TooltipWrapper>
+                    </div>
                 </div>
             </div>
 
