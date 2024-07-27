@@ -26,7 +26,7 @@ export function FormItemWrapper({ question, onSubmit, error, isValid, isLoading,
                 />
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-4 w-full">
                 <div className="space-y-2 w-full">
                     <h1 className="font-medium text-xl">
                         {question.title}
@@ -49,7 +49,7 @@ export function FormItemWrapper({ question, onSubmit, error, isValid, isLoading,
                     {children}
                 </div>
 
-                <LoadingButton loading={isLoading} disabled={!isValid}>
+                <LoadingButton loading={isLoading} disabled={!isValid} className="px-8 w-fit">
                     {question.buttonText}
                 </LoadingButton>
             </div>
