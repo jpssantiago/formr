@@ -78,7 +78,8 @@ const config = {
       navbar: { max: "1050px" },
       
       small: { max: "510px" },
-      medium: { max: "700px" } // min: "500px",
+      medium: { max: "700px" }, // min: "500px",
+      large: { max: "950px" }
     }
   },
   plugins: [require("tailwindcss-animate")],

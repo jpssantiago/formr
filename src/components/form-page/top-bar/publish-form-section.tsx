@@ -10,7 +10,7 @@ export function PublishFormSection({ formId }: { formId: string }) {
     const { isSaving } = useCreateForm()
     
     return (
-        <div className="flex flex-1 justify-end items-center gap-5">
+        <div className="flex flex-1 medium:flex-auto justify-end items-center gap-5 medium:w-fit">
             <div className={cn("items-center duration-300 opacity-0 flex gap-2 text-blue-500 transition-all invisible", isSaving && "opacity-1 visible")}>
                 <Loader
                     size={16}

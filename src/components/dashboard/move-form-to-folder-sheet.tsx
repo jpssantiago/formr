@@ -98,7 +98,7 @@ export function MoveFormToFolderSheet({ form, children, onCloseSheet }: MoveForm
                 {children}
             </SheetTrigger>
 
-            <SheetContent className="flex flex-col gap-5 w-[400px] sm:w-[540px]" aria-describedby={undefined}>
+            <SheetContent className="flex flex-col gap-5 max-w-[400px]" aria-describedby={undefined}>
                 <SheetHeader className="items-start text-start">
                     <SheetTitle>Move form to...</SheetTitle>
                 </SheetHeader>
