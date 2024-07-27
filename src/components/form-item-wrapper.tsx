@@ -1,4 +1,5 @@
 import { ReactNode } from "react"
+import { ArrowRight } from "lucide-react"
 
 import { TQuestion } from "@/models/question"
 import { LoadingButton } from "./ui/loading-button"
@@ -14,32 +15,44 @@ type FormItemWrapper = {
 
 export function FormItemWrapper({ question, onSubmit, error, isValid, isLoading, children }: FormItemWrapper) {
     return (
-        <form onSubmit={onSubmit} className="flex flex-col justify-center items-start gap-4 mx-auto w-full max-w-[500px] h-full">
-            <div className="space-y-2 w-full">
-                <h1 className="font-medium text-xl">
-                    {question.title}
-                </h1>
+        <form onSubmit={onSubmit} className="flex items-start gap-3 mx-auto w-full max-w-[500px]">
+            <div className="flex items-center gap-1 mt-0.5 text-[#0545AF]">
+                <p className="font-medium tabular-nums">
+                    {question.order + 1}
+                </p>
 
-                {question.description && (
-                    <p className="text-zinc-500">
-                        {question.description}
-                    </p>
-                )}
-
-                {error && (
-                    <p className="text-destructive text-sm">
-                        Error: {error}
-                    </p>
-                )}
+                <ArrowRight
+                    size={20}
+                />
             </div>
 
-            <div className="space-y-2 w-full">
-                {children}
-            </div>
+            <div className="space-y-4">
+                <div className="space-y-2 w-full">
+                    <h1 className="font-medium text-xl">
+                        {question.title}
+                    </h1>
 
-            <LoadingButton loading={isLoading} disabled={!isValid}>
-                {question.buttonText}
-            </LoadingButton>
+                    {question.description && (
+                        <p className="text-zinc-500">
+                            {question.description}
+                        </p>
+                    )}
+
+                    {error && (
+                        <p className="text-destructive text-sm">
+                            Error: {error}
+                        </p>
+                    )}
+                </div>
+
+                <div className="space-y-2 w-full">
+                    {children}
+                </div>
+
+                <LoadingButton loading={isLoading} disabled={!isValid}>
+                    {question.buttonText}
+                </LoadingButton>
+            </div>
         </form>
     )
 }
