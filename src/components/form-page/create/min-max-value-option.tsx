@@ -60,14 +60,13 @@ export function MinMaxValueOption() {
                     <Switch
                         id="mavValue"
                         checked={hasMax}
-                        onCheckedChange={() => {
+                        onCheckedChange={checked => {
                             updateQuestion({
                                 ...selectedQuestion!,
-                                maxValue: hasMax ? undefined : (selectedQuestion?.minValue ?? 1)
+                                maxValue: checked ? (selectedQuestion?.minValue ?? 1) : undefined
                             })
                         }}
                     />
-
                 </div>
 
                 {hasMax && (
@@ -79,7 +78,7 @@ export function MinMaxValueOption() {
                             let value = Number(e.target.value)
                             if (selectedQuestion.minValue && value < selectedQuestion.minValue) {
                                 value = selectedQuestion.minValue
-                            } 
+                            }
 
                             updateQuestion({
                                 ...selectedQuestion,

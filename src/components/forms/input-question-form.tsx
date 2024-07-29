@@ -10,7 +10,7 @@ import { InputQuestion } from "@/components/question-types/input-question"
 
 type InputQuestionFormProps = {
     question: TQuestion
-    onContinue: () => void
+    onContinue: (value: string | number) => void
 }
 
 export function InputQuestionForm({ question, onContinue }: InputQuestionFormProps) {
@@ -23,13 +23,13 @@ export function InputQuestionForm({ question, onContinue }: InputQuestionFormPro
             case "email":
                 return z.string().email()
             case "phoneNumber":
-                return z.string() // TODO: Validate the phone number
+                return z.string().min(4) // TODO: Validate the phone number
             case "number":
                 return z.coerce.number()
             case "date":
                 return z.string() // TODO: Let the user choose the format (ex: dd/mm/yyyy, mm/dd/yyyy, yyyy/mm/dd, yyyy/dd/mm)
             default:
-                return z.string().min(1)
+                return question.maxValue ? z.string().min(question.minValue ?? 1).max(question.maxValue) : z.string().min(question.minValue ?? 1)
         }
     }
 
@@ -39,17 +39,17 @@ export function InputQuestionForm({ question, onContinue }: InputQuestionFormPro
 
     type SchemaType = z.infer<typeof schema>
 
-    const { handleSubmit, register, formState } = useForm<SchemaType>({
+    const { handleSubmit, register, formState, reset } = useForm<SchemaType>({
         resolver: zodResolver(schema)
     })
 
     function onSubmit({ value }: SchemaType) {
-        console.log(value)
-        onContinue()
+        onContinue(value)
+        reset()
     }
 
     return (
-        <FormItemWrapper 
+        <FormItemWrapper
             question={question}
             onSubmit={handleSubmit(onSubmit)} 
             error={formState.errors.root?.message || formState.errors.value?.message || ""}

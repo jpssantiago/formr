@@ -45,7 +45,9 @@ export async function PUT(request: Request, { params }: { params: { formId: stri
                 },
                 data: {
                     ...question,
-                    type: question.type.slug
+                    type: question.type.slug,
+                    minValue: question.minValue || null,
+                    maxValue: question.maxValue || null,
                 }
             })
         } else {

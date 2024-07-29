@@ -5,13 +5,12 @@ import { ArrowRight, Copy, Settings, Trash2 } from "lucide-react"
 
 import { TQuestion } from "@/models/question"
 import { useCreateForm } from "@/contexts/create-form-context"
-import { IconButton } from "@/components/ui/icon-button"
+import { TextIconButton } from "@/components/ui/text-icon-button"
 import { QuestionTypeBadge } from "@/components/question-type-badge"
 import { Separator } from "@/components/ui/separator"
 import { InputQuestion } from "@/components/question-types/input-question"
 import { TextareaQuestion } from "@/components/question-types/textarea-question"
 import { Textarea } from "@/components/ui/textarea"
-import { Button } from "@/components/ui/button"
 import { QuestionSettingsSheet } from "./question-settings-sheet"
 
 type QuestionCardProps = {
@@ -125,7 +124,7 @@ export function QuestionCard({ question }: QuestionCardProps) {
                 <QuestionTypeBadge question={question} />
 
                 <div className="flex items-center gap-2">
-                    <IconButton
+                    <TextIconButton
                         icon={Copy}
                         iconSize={18}
                         variant="ghost"
@@ -133,9 +132,9 @@ export function QuestionCard({ question }: QuestionCardProps) {
                         onClick={onDuplicate}
                     >
                         Duplicate
-                    </IconButton>
+                    </TextIconButton>
 
-                    <IconButton
+                    <TextIconButton
                         icon={Trash2}
                         iconSize={18}
                         variant="ghost"
@@ -144,7 +143,7 @@ export function QuestionCard({ question }: QuestionCardProps) {
                         disabled={questions.length == 1}
                     >
                         Delete
-                    </IconButton>
+                    </TextIconButton>
                 </div>
             </div>
         </div>

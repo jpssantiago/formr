@@ -15,7 +15,7 @@ type FormItemWrapper = {
 
 export function FormItemWrapper({ question, onSubmit, error, isValid, isLoading, children }: FormItemWrapper) {
     return (
-        <form onSubmit={onSubmit} className="flex items-start gap-3 mx-auto w-full max-w-[500px]">
+        <form onSubmit={onSubmit} className="flex items-start gap-3 w-full">
             <div className="flex items-center gap-1 mt-0.5 text-[#0545AF]">
                 <p className="font-medium tabular-nums">
                     {question.order + 1}
@@ -29,7 +29,8 @@ export function FormItemWrapper({ question, onSubmit, error, isValid, isLoading,
             <div className="space-y-4 w-full">
                 <div className="space-y-2 w-full">
                     <h1 className="font-medium text-xl">
-                        {question.title}
+                        {question.title || "This question has no title."}
+                        {!question.isRequired && (" (optional)")}
                     </h1>
 
                     {question.description && (
@@ -45,7 +46,7 @@ export function FormItemWrapper({ question, onSubmit, error, isValid, isLoading,
                     )}
                 </div>
 
-                <div className="space-y-2 w-full">
+                <div className="space-y-2 pb-2 w-full">
                     {children}
                 </div>
 

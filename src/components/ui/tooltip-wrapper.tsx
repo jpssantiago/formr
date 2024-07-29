@@ -15,7 +15,9 @@ export function TooltipWrapper({ children, tooltip, asChild = true, className, a
     return (
         <Tooltip>
             <TooltipTrigger asChild={asChild}>
-                {children}
+                <span>
+                    {children}
+                </span>
             </TooltipTrigger>
 
             <TooltipContent 

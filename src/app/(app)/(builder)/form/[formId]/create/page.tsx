@@ -1,7 +1,7 @@
 import { QuestionList } from "@/components/form-page/create/question-list"
 import { CreateQuestion } from "@/components/form-page/create/create-question"
 import { QuestionSettings } from "@/components/form-page/create/question-settings"
-import { FormActions } from "@/components/form-page/top-bar/form-actions"
+import { FormActions } from "@/components/form-page/create/form-actions"
 import { QuestionCardList } from "@/components/form-page/create/question-card-list"
 
 export default async function CreateFormPage() {
