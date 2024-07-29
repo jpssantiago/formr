@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { toast } from "sonner"
-import { Globe, Send } from "lucide-react"
+import { Globe, GlobeLock } from "lucide-react"
 
 import { LoadingButton } from "@/components/ui/loading-button"
 import { FormPublishedDialog } from "./form-published-dialog"
@@ -12,7 +12,7 @@ type PublishFormButtonProps = {
     formId: string
 }
 
-export function PublishFormButton({ formId }: PublishFormButtonProps) { 
+export function PublishFormButton({ formId }: PublishFormButtonProps) {
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [open, setOpen] = useState<boolean>(false)
 
@@ -29,27 +29,33 @@ export function PublishFormButton({ formId }: PublishFormButtonProps) {
             return toast.error(response.err)
         }
 
-        setOpen(true)
-        toast.success("Changes published!")
+        if (response.form?.isPublished) {
+            setOpen(true)
+        }
+
+        toast.success(`The form is now ${response.form?.isPublished ? "public" : "private"}.`)
     }
 
     return (
-        <LoadingButton onClick={onPublish} loading={isLoading} disabled={isLoading || form?.isPublished} className="flex items-center gap-3">
-            {!isLoading && (
-                form?.isPublished ? (
-                    <Globe  size={18} />
-                ) : (
-                    <Send size={18} />
-                )
-            )}
+        <>
+            <LoadingButton onClick={onPublish} loading={isLoading} disabled={isLoading} className="flex items-center gap-3">
+                {!isLoading && (
+                    form?.isPublished ? (
+                        <GlobeLock size={18} />
+                    ) : (
+                        <Globe size={18} />
+                    )
+                )}
 
-            {form?.isPublished ? "Published" : "Publish"}
+                {form?.isPublished ? "Unpublish" : "Publish"}
+
+            </LoadingButton>
 
             <FormPublishedDialog
                 open={open}
                 setOpen={setOpen}
                 formId={formId}
             />
-        </LoadingButton>
+        </>
     )
 } 

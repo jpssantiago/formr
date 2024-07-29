@@ -58,7 +58,7 @@ export function FormListItem({ form, forms }: FormListItemProps) {
                     </span>
 
                     <span>
-                        {form.isPublished ? "Public" : "Private"}
+                        {form.isPublished ? "Published" : "Not published"}
                     </span>
                 </p>
             </div>
