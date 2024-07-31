@@ -5,7 +5,7 @@ import { ReactNode, useEffect } from "react"
 import { Form, Question } from "@prisma/client"
 import { TForm } from "@/models/form"
 import { useCreateForm } from "@/contexts/create-form-context"
-import { TopBar } from "@/components/form-page/top-bar/top-bar"
+import { TopBar } from "@/components/builder/top-bar/top-bar"
 import { QUESTION_TYPES } from "@/data/types"
 
 type FormPageClientLayoutProps = {

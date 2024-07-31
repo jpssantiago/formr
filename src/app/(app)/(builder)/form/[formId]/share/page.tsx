@@ -1,32 +1,26 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Link, Mail, Pen, QrCode, Linkedin, Smartphone, Laptop } from "lucide-react"
 import { toast } from "sonner"
+import { Link, Mail, Pen, QrCode, Linkedin } from "lucide-react"
 
 import { useCreateForm } from "@/contexts/create-form-context"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import { TextIconButton } from "@/components/ui/text-icon-button"
-import { CustomizeFormLinkDialog } from "@/components/form-page/share/customize-form-link-dialog"
+import { CustomizeFormLinkDialog } from "@/components/builder/share/customize-form-link-dialog"
 import { TooltipWrapper } from "@/components/ui/tooltip-wrapper"
 import { FormItem } from "@/components/form-item"
 import { IconButton } from "@/components/ui/icon-button"
-import { cn } from "@/lib/utils"
 
 export default function ShareFormPage() {
     const [url, setUrl] = useState<string>("")
-    const [previewMode, setPreviewMode] = useState<"desktop" | "mobile">("desktop")
 
     const { form, questions } = useCreateForm()
 
     function copyToClipboard() {
         navigator.clipboard.writeText(url)
         toast.success("The link was copied to your clipboard.")
-    }
-
-    function togglePreviewMode() {
-        setPreviewMode(previewMode == "desktop" ? "mobile" : "desktop")
     }
 
     useEffect(() => {
@@ -81,22 +75,14 @@ export default function ShareFormPage() {
                     </div>
 
                     <Separator orientation="vertical" className="medium:hidden h-6" />
-
-                    <TooltipWrapper tooltip={previewMode == "desktop" ? "Mobile view" : "Desktop view"}>
-                        <IconButton
-                            icon={previewMode == "desktop" ? Smartphone : Laptop}
-                            onClick={togglePreviewMode}
-                        />
-                    </TooltipWrapper>
                 </div>
             </div>
 
             {form && (
-                <div className={cn("border rounded-lg h-full", previewMode == "mobile" && "max-w-[510px] w-full mx-auto")}>
+                <div className="border rounded-lg h-full">
                     <FormItem
                         questions={questions}
                         mode="preview"
-                        previewMode={previewMode}
                     />
                 </div>
             )}

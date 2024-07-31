@@ -8,7 +8,6 @@ import { InputQuestionForm } from "./forms/input-question-form"
 type FormItemProps = {
     questions: TQuestion[]
     mode?: "submit" | "preview"
-    previewMode?: "desktop" | "mobile"
 }
 
 export function FormItem({ questions, mode = "submit" }: FormItemProps) {
@@ -28,7 +27,7 @@ export function FormItem({ questions, mode = "submit" }: FormItemProps) {
     }
 
     return (
-        <div className="flex items-center mx-auto px-5 max-w-[500px] h-full transition-all">
+        <div className="flex items-center mx-auto px-5 w-full max-w-[500px] h-full transition-all">
             {isFinished ? (
                 <pre className="flex justify-center w-full">
                     <code>

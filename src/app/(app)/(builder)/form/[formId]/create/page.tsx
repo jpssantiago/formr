@@ -1,8 +1,8 @@
-import { QuestionList } from "@/components/form-page/create/question-list"
-import { CreateQuestion } from "@/components/form-page/create/create-question"
-import { QuestionSettings } from "@/components/form-page/create/question-settings"
-import { FormActions } from "@/components/form-page/create/form-actions"
-import { QuestionCardList } from "@/components/form-page/create/question-card-list"
+import { QuestionList } from "@/components/builder/create/question-list"
+import { CreateQuestion } from "@/components/builder/create/create-question"
+import { QuestionSettings } from "@/components/builder/create/question-settings"
+import { FormActions } from "@/components/builder/create/form-actions"
+import { QuestionCardList } from "@/components/builder/create/question-card-list"
 
 export default async function CreateFormPage() {
     return (
