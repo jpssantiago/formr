@@ -27,7 +27,8 @@ export async function POST() {
             order: 0,
             buttonText: "Continue",
             type: "shortText",
-            formId: form.id
+            formId: form.id,
+            isRequired: true
         }
     })
     

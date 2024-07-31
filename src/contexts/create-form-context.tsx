@@ -145,7 +145,7 @@ export function CreateFormProvider({ children }: { children: ReactNode }) {
             order: questions.length,
             title: "",
             description: "",
-            isRequired: false,
+            isRequired: true,
             buttonText: "Continue",
             type,
         }
