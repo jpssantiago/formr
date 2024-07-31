@@ -97,10 +97,10 @@ export function CreateFormProvider({ children }: { children: ReactNode }) {
         })
 
         if (selectedQuestion?.id == question.id) {
-            if (question.order == form.questions.length - 1) {
-                setSelectedQuestion(form.questions[question.order - 1])
+            if (question.order == questions.length - 1) {
+                setSelectedQuestion(questions[question.order - 1])
             } else {
-                setSelectedQuestion(form.questions[question.order + 1])
+                setSelectedQuestion(questions[question.order + 1])
             }
         }
 
