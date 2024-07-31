@@ -27,9 +27,11 @@ export function InputQuestionForm({ question, onContinue }: InputQuestionFormPro
             case "number":
                 return z.coerce.number()
             case "date":
-                return z.string() // TODO: Let the user choose the format (ex: dd/mm/yyyy, mm/dd/yyyy, yyyy/mm/dd, yyyy/dd/mm)
+                return z.string().min(10).max(10)
+                // TODO: Let the user choose the format (ex: dd/mm/yyyy, mm/dd/yyyy, yyyy/mm/dd, yyyy/dd/mm)
             default:
-                return question.maxValue ? z.string().min(question.minValue ?? 1).max(question.maxValue) : z.string().min(question.minValue ?? 1)
+                const schema = z.string().min(question.minValue ?? 1)
+                return question.maxValue ? schema.max(question.maxValue) : schema
         }
     }
 
@@ -48,17 +50,29 @@ export function InputQuestionForm({ question, onContinue }: InputQuestionFormPro
         reset()
     }
 
+    function getInputType(): string {
+        switch (question.type.slug) {
+            case "number":
+            case "email":
+            case "date":
+                return question.type.slug
+            default:
+                return "text"
+        }
+    }
+
     return (
         <FormItemWrapper
             question={question}
             onSubmit={handleSubmit(onSubmit)} 
-            error={formState.errors.root?.message || formState.errors.value?.message || ""}
+            error={formState.errors.root?.message || ""}
             isLoading={formState.isSubmitting}
             isValid={formState.isValid}
         >
             <InputQuestion
                 question={question}
                 readOnly={false}
+                type={getInputType()}
                 {...register("value")}
             />
         </FormItemWrapper>

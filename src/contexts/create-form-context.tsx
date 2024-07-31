@@ -62,7 +62,7 @@ export function CreateFormProvider({ children }: { children: ReactNode }) {
             await QuestionService.saveQuestions(form.id, questions)
             setIsSaving(false)
             setShouldSave(false)
-        }, 3000))
+        }, 2500))
     }, [questions])
 
     function updateQuestion(question: TQuestion) {

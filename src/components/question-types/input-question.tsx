@@ -3,6 +3,7 @@ import { InputHTMLAttributes, forwardRef } from "react"
 import { TQuestion } from "@/models/question"
 import { CountryCodeSelector } from "@/components/ui/country-code-selector"
 import { BorderInput } from "@/components/ui/border-input"
+import { MaskedBorderInput } from "@/components/ui/masked-border-input"
 
 type InputQuestionProps = InputHTMLAttributes<HTMLInputElement> & {
     question: TQuestion
@@ -24,7 +25,7 @@ const InputQuestion = forwardRef<HTMLInputElement, InputQuestionProps>(
                 placeholder = "123..."
                 break
             case "date":
-                placeholder = "01/01/2001"
+                placeholder = "dd/mm/yyyy"
                 break
             case "shortText":
             default:
@@ -37,13 +38,25 @@ const InputQuestion = forwardRef<HTMLInputElement, InputQuestionProps>(
                     <CountryCodeSelector />
                 )}
 
-                <BorderInput
-                    ref={ref}
-                    placeholder={placeholder}
-                    type={question.type.slug == "number" ? "number" : "text"}
-                    readOnly={readOnly}
-                    {...rest}
-                />
+                {question.type.slug == "date" ? (
+                    <MaskedBorderInput
+                        ref={ref}
+                        mask="99/99/9999"
+                        maskChar={null}
+                        placeholder={placeholder}
+                        readOnly={readOnly}
+                        {...rest}
+                        type="text"
+                    />
+                ) : (
+                    <BorderInput
+                        ref={ref}
+                        placeholder={placeholder}
+                        type={question.type.slug == "number" ? "number" : "text"}
+                        readOnly={readOnly}
+                        {...rest}
+                    />
+                )}
             </div>
         )
     }
