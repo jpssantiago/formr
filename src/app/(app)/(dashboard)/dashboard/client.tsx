@@ -1,18 +1,12 @@
 "use client"
 
 import { useState } from "react"
-import { FileType, FolderOpen } from "lucide-react"
-import { toast } from "sonner"
-import { useRouter } from "next/navigation"
-
 import { Folder, Form } from "@prisma/client"
+
 import { Separator } from "@/components/ui/separator"
-import { FolderCarouselItem } from "@/components/dashboard/folder-carousel-item"
-import { FormListItem } from "@/components/dashboard/form-list-item"
-import { Button } from "@/components/ui/button"
-import { ManageFoldersDialog } from "@/components/dashboard/manage-folders-dialog"
-import { LoadingButton } from "@/components/ui/loading-button"
-import { FormService } from "@/services/form-service"
+import { DashboardPageHeader } from "@/components/dashboard/dashboard-page-header"
+import { FolderList } from "@/components/dashboard/folder-list"
+import { FormList } from "@/components/dashboard/form-list"
 
 type DashboardClientPageProps = {
     forms: Form[]
@@ -20,7 +14,7 @@ type DashboardClientPageProps = {
 }
 
 export function DashboardClientPage({ forms, folders }: DashboardClientPageProps) {
-    const [selectedFolder, setSelectedFolder] = useState<Folder | null>()
+    const [selectedFolder, setSelectedFolder] = useState<Folder | undefined>()
 
     function getForms(): Form[] {
         if (!selectedFolder) {
@@ -31,138 +25,22 @@ export function DashboardClientPage({ forms, folders }: DashboardClientPageProps
     }
 
     function onSelectFolder(folder: Folder) {
-        setSelectedFolder(selectedFolder?.id == folder.id ? null : folder)
+        setSelectedFolder(selectedFolder?.id == folder.id ? undefined : folder)
     }
 
     return (
-        <div className="flex flex-col gap-5">
-            <Header folders={folders} />
-
-            <Separator className="mt-5" />
-
+        <div className="space-y-5">
             {folders.length > 0 && (
-                <div className="space-y-2">
-                    <p className="text-[15px] text-zinc-800">
-                        Folders ({folders.length})
-                    </p>
-
-                    <div className="flex flex-wrap gap-2">
-                        {folders.map((folder) => (
-                            <FolderCarouselItem
-                                key={folder.id}
-                                folder={folder}
-                                onSelect={() => onSelectFolder(folder)}
-                                isSelected={selectedFolder?.id == folder.id}
-                            />
-                        ))}
-                    </div>
-                </div>
+                <FolderList
+                    folders={folders}
+                    onSelectFolder={onSelectFolder}
+                    selectedFolder={selectedFolder}
+                />
             )}
 
-            <div className="flex flex-col gap-4">
-                {forms.length == 0 && (
-                    <NoFormsIndicator />
-                )}
-
-                {forms.length > 0 && getForms().length == 0 ? (
-                    <NoFormsOnFolderIndicator />
-                ) : (
-                    getForms().map((form) => (
-                        <FormListItem
-                            key={form.id}
-                            form={form}
-                            forms={forms}
-                        />
-                    ))
-                )}
-            </div>
-        </div>
-    )
-}
-
-function Header({ folders }: { folders: Folder[] }) {
-    const [isLoading, setIsLoading] = useState<boolean>(false)
-
-    const { push } = useRouter()
-
-    async function onCreateForm() {
-        if (isLoading) return
-
-        setIsLoading(true)
-        const response = await FormService.createForm()
-        setIsLoading(false)
-
-        if (response.err) {
-            return toast.error(response.err)
-        }
-
-        if (response.form)
-            push(`/form/${response.form.id}`)
-    }
-
-    return (
-        <div className="flex small:flex-col justify-between items-center gap-10 w-full">
-            <div className="space-y-1 small:text-center">
-                <h1 className="font-semibold text-2xl">
-                    All forms
-                </h1>
-
-                <p className="text-[15px] text-zinc-600">
-                    Manage all your forms / surveys in one place.
-                </p>
-            </div>
-
-            <div className="flex medium:flex-col-reverse gap-2">
-                <LoadingButton loading={isLoading} onClick={onCreateForm} className="medium:w-full">
-                    Create a new form
-                </LoadingButton>
-
-                <ManageFoldersDialog folders={folders}>
-                    <Button variant="outline">
-                        Manage folders
-                    </Button>
-                </ManageFoldersDialog>
-            </div>
-        </div>
-    )
-}
-
-function NoFormsIndicator() {
-    return (
-        <div className="flex flex-col items-center gap-3 w-full text-center">
-            <FileType
-                size={36}
+            <FormList
+                forms={getForms()}
             />
-
-            <div className="space-y-1">
-                <p className="font-medium text-sm">
-                    It looks like you haven&apos;t created any form
-                </p>
-
-                <span className="text-sm text-zinc-500">
-                    Get started by creating your first form
-                </span>
-            </div>
-        </div>
-    )
-}
-
-function NoFormsOnFolderIndicator() {
-    return (
-        <div className="flex flex-col items-center gap-3 w-full text-center">
-            <FolderOpen
-                size={36}
-            />
-
-            <div className="space-y-1">
-                <p className="font-medium text-sm">
-                    This folder is empty
-                </p>
-
-                <span className="text-sm text-zinc-500">
-                    Move forms into this folder to see them here
-                </span>
-            </div>
         </div>
     )
 }
