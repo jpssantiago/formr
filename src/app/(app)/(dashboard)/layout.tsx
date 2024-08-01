@@ -1,39 +1,27 @@
-"use client"
+import { ReactNode } from "react"
+import { redirect } from "next/navigation"
 
-import { ReactNode, useEffect } from "react"
-import { useSession } from "next-auth/react"
-import { useRouter } from "next/navigation"
-
-import { LoadingContainer } from "@/components/loading-container"
+import { getUser } from "@/actions/get-user"
 import { NavBar } from "@/components/nav-bar/nav-bar"
 
 type DashboardLayoutProps = {
-    children?: ReactNode
+    children: ReactNode
 }
 
-export default function DashboardLayout({ children }: DashboardLayoutProps) {
-    const { status, data } = useSession()
-    const { push } = useRouter()
+export default async function DashboardLayout({ children }: DashboardLayoutProps) {
+    const user = await getUser()
 
-    useEffect(() => {
-        if (status == "unauthenticated") {
-            return push("/auth")
-        }
-    }, [status])
+    if (!user) {
+        return redirect("/auth")
+    }
 
     return (
-        <div className="h-dvh">
-            {status == "loading" && <LoadingContainer />}
+        <div className="flex navbar:flex-col">
+            <NavBar />
 
-            {data && (
-                <div className="flex navbar:flex-col">
-                    <NavBar />
-
-                    <div className="p-10 w-full overflow-y-hidden">
-                        {children}
-                    </div>
-                </div>
-            )}
+            <div className="p-10 w-full overflow-y-hidden">
+                {children}
+            </div>
         </div>
     )
 }
