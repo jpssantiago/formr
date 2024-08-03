@@ -3,8 +3,6 @@
 import { useState } from "react"
 import { Folder, Form } from "@prisma/client"
 
-import { Separator } from "@/components/ui/separator"
-import { DashboardPageHeader } from "@/components/dashboard/dashboard-page-header"
 import { FolderList } from "@/components/dashboard/folder-list"
 import { FormList } from "@/components/dashboard/form-list"
 
