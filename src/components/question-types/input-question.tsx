@@ -33,7 +33,7 @@ const InputQuestion = forwardRef<HTMLInputElement, InputQuestionProps>(
         }
 
         return (
-            <div className="flex gap-3 h-12">
+            <div className="flex gap-x-3 my-1.5 h-12">
                 {question.type.slug == "phoneNumber" && (
                     <CountryCodeSelector />
                 )}

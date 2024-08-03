@@ -85,3 +85,20 @@
   background: #BFBFBF;
   border-radius: 50px;
 }
+
+/* width */
+.transparent-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* Track */
+.transparent-scroll::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 50px;
+}
+
+/* Handle */
+.transparent-scroll::-webkit-scrollbar-thumb {
+  background: #BFBFBF;
+  border-radius: 50px;
+}

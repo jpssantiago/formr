@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { TQuestion } from "@/models/question"
 import { FormItemWrapper } from "@/components/form-item-wrapper"
 import { InputQuestion } from "@/components/question-types/input-question"
+import { TextAreaQuestionForm } from "./text-area-question-form"
 
 type InputQuestionFormProps = {
     question: TQuestion
@@ -28,7 +29,7 @@ export function InputQuestionForm({ question, onContinue }: InputQuestionFormPro
                 return z.coerce.number()
             case "date":
                 return z.string().min(10).max(10)
-                // TODO: Let the user choose the format (ex: dd/mm/yyyy, mm/dd/yyyy, yyyy/mm/dd, yyyy/dd/mm)
+            // TODO: Let the user choose the format (ex: dd/mm/yyyy, mm/dd/yyyy, yyyy/mm/dd, yyyy/dd/mm)
             default:
                 const schema = z.string().min(question.minValue ?? 1)
                 return question.maxValue ? schema.max(question.maxValue) : schema
@@ -64,17 +65,23 @@ export function InputQuestionForm({ question, onContinue }: InputQuestionFormPro
     return (
         <FormItemWrapper
             question={question}
-            onSubmit={handleSubmit(onSubmit)} 
+            onSubmit={handleSubmit(onSubmit)}
             error={formState.errors.root?.message || ""}
             isLoading={formState.isSubmitting}
             isValid={formState.isValid}
         >
-            <InputQuestion
-                question={question}
-                readOnly={false}
-                type={getInputType()}
-                {...register("value")}
-            />
+            {question.type.slug == "longText" ? (
+                <TextAreaQuestionForm
+                    {...register("value")}
+                />
+            ) : (
+                <InputQuestion
+                    question={question}
+                    readOnly={false}
+                    type={getInputType()}
+                    {...register("value")}
+                />
+            )}
         </FormItemWrapper>
     )
 }
