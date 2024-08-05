@@ -3,7 +3,6 @@ import { TQuestionType } from "./question-type"
 export type TQuestion = {
     id: string
     title: string
-    description?: string
     order: number
     buttonText: string
 

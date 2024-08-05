@@ -101,7 +101,6 @@ model Form {
 model Question {
   id String @id @default(cuid())
   title String
-  description String
   order Int
   buttonText String
   isRequired Boolean @default(false)

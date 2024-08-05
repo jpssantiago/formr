@@ -1,9 +1,9 @@
 import { InputHTMLAttributes, forwardRef } from "react"
+import ReactInputMask from "react-input-mask"
 
 import { TQuestion } from "@/models/question"
 import { CountryCodeSelector } from "@/components/ui/country-code-selector"
-import { BorderInput } from "@/components/ui/border-input"
-import { MaskedBorderInput } from "@/components/ui/masked-border-input"
+import { Input } from "@/components/ui/input"
 
 type InputQuestionProps = InputHTMLAttributes<HTMLInputElement> & {
     question: TQuestion
@@ -11,7 +11,7 @@ type InputQuestionProps = InputHTMLAttributes<HTMLInputElement> & {
 }
 
 const InputQuestion = forwardRef<HTMLInputElement, InputQuestionProps>(
-    ({ question, readOnly = true, ...rest }, ref) => {
+    ({ question, readOnly = false, ...rest }, ref) => {
         let placeholder = ""
 
         switch (question.type.slug) {
@@ -39,22 +39,20 @@ const InputQuestion = forwardRef<HTMLInputElement, InputQuestionProps>(
                 )}
 
                 {question.type.slug == "date" ? (
-                    <MaskedBorderInput
-                        ref={ref}
-                        mask="99/99/9999"
-                        maskChar={null}
-                        placeholder={placeholder}
-                        readOnly={readOnly}
+                    <ReactInputMask
+                        inputRef={ref}
                         {...rest}
-                        type="text"
+                        mask="99/99/9999"
+                        placeholder={placeholder}
+                        className="border-input hover:border-primary focus-visible:border-primary bg-background px-3 py-2 border rounded-md w-full h-10 text-sm phone:text-base transition-all outline-none"
+                        readOnly={readOnly}
                     />
                 ) : (
-                    <BorderInput
+                    <Input
                         ref={ref}
-                        placeholder={placeholder}
-                        type={question.type.slug == "number" ? "number" : "text"}
-                        readOnly={readOnly}
                         {...rest}
+                        placeholder={placeholder}
+                        readOnly={readOnly}
                     />
                 )}
             </div>

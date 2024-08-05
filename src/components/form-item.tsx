@@ -23,7 +23,7 @@ export function FormItem({ questions, mode = "submit" }: FormItemProps) {
         } else {
             setIsFinished(true)
             // TODO: Save the answers
-        } 
+        }
     }
 
     return (
@@ -35,12 +35,31 @@ export function FormItem({ questions, mode = "submit" }: FormItemProps) {
                     </code>
                 </pre>
             ) : (
-                (["input", "text"].includes(currentQuestion.type.category.slug)) && (
-                    <InputQuestionForm
-                        question={currentQuestion}
-                        onContinue={handleContinue}
-                    />
-                )
+                <div className="flex flex-col items-start gap-2 w-full">
+                    <p className="text-[15px] text-zinc-600">
+                        Question {currentQuestion.order + 1} of {questions.length}
+                    </p>
+
+                    <div className="space-y-4 w-full">
+                        <h1 className="font-medium text-xl">
+                            {currentQuestion.title || "This question has no title."}
+                            {!currentQuestion.isRequired && (" (optional)")}
+                        </h1>
+
+                        {/* {error && (
+                            <p className="text-destructive text-sm">
+                                Error: {error}
+                            </p>
+                        )} */}
+
+                        {(["input", "text"].includes(currentQuestion.type.category.slug)) && (
+                            <InputQuestionForm
+                                question={currentQuestion}
+                                onContinue={handleContinue}
+                            />
+                        )}
+                    </div>
+                </div>
             )}
         </div>
     )

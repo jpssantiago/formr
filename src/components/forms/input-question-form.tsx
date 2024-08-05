@@ -5,9 +5,9 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 
 import { TQuestion } from "@/models/question"
-import { FormItemWrapper } from "@/components/form-item-wrapper"
+import { QuestionForm } from "./question-form"
 import { InputQuestion } from "@/components/question-types/input-question"
-import { TextAreaQuestionForm } from "./text-area-question-form"
+import { TextAreaQuestion } from "@/components/question-types/text-area-question"
 
 type InputQuestionFormProps = {
     question: TQuestion
@@ -63,25 +63,23 @@ export function InputQuestionForm({ question, onContinue }: InputQuestionFormPro
     }
 
     return (
-        <FormItemWrapper
+        <QuestionForm 
             question={question}
             onSubmit={handleSubmit(onSubmit)}
-            error={formState.errors.root?.message || ""}
             isLoading={formState.isSubmitting}
             isValid={formState.isValid}
         >
             {question.type.slug == "longText" ? (
-                <TextAreaQuestionForm
+                <TextAreaQuestion
                     {...register("value")}
                 />
             ) : (
                 <InputQuestion
                     question={question}
-                    readOnly={false}
                     type={getInputType()}
                     {...register("value")}
                 />
             )}
-        </FormItemWrapper>
+        </QuestionForm>
     )
 }

@@ -18,7 +18,9 @@ export function AddQuestionDialog({ children }: { children: ReactNode }) {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                {children}
+                <span>
+                    {children}
+                </span>
             </DialogTrigger>
 
             <DialogContent className="space-y-4">

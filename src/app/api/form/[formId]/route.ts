@@ -43,7 +43,6 @@ export async function POST(_: Request, { params }: { params: { formId: string } 
         await prisma.question.create({
             data: {
                 title: question.title,
-                description: question.description,
                 order: question.order,
                 isRequired: question.isRequired,
                 buttonText: question.buttonText,

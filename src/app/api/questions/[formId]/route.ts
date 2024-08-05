@@ -54,7 +54,6 @@ export async function PUT(request: Request, { params }: { params: { formId: stri
             await prisma.question.create({
                 data: {
                     title: question.title,
-                    description: question.description ?? "",
                     type: question.type.slug,
                     formId: params.formId,
                     order: question.order,
