@@ -58,6 +58,7 @@ export async function PUT(request: Request, { params }: { params: { formId: stri
                     formId: params.formId,
                     order: question.order,
                     buttonText: question.buttonText,
+                    isRequired: true
                 }
             })
         }
