@@ -1,9 +1,13 @@
-import { InputHTMLAttributes, forwardRef } from "react"
+"use client"
+
+import { InputHTMLAttributes, forwardRef, useState } from "react"
 import ReactInputMask from "react-input-mask"
 
 import { TQuestion } from "@/models/question"
+import { Country } from "@/models/country"
 import { CountryCodeSelector } from "@/components/ui/country-code-selector"
 import { Input } from "@/components/ui/input"
+import { COUNTRIES } from "@/data/countries"
 
 type InputQuestionProps = InputHTMLAttributes<HTMLInputElement> & {
     question: TQuestion
@@ -12,7 +16,10 @@ type InputQuestionProps = InputHTMLAttributes<HTMLInputElement> & {
 
 const InputQuestion = forwardRef<HTMLInputElement, InputQuestionProps>(
     ({ question, readOnly = false, ...rest }, ref) => {
+        const [selectedCountry, setSelectedCountry] = useState<Country>(COUNTRIES.find(c => c.slug == "us")!)
+
         let placeholder = ""
+        let mask = ""
 
         switch (question.type.slug) {
             case "url":
@@ -26,6 +33,11 @@ const InputQuestion = forwardRef<HTMLInputElement, InputQuestionProps>(
                 break
             case "date":
                 placeholder = "dd/mm/yyyy"
+                mask = "99/99/9999"
+                break
+            case "phoneNumber":
+                placeholder = selectedCountry.mask ?? "phone number"
+                mask = selectedCountry.mask ?? ""
                 break
             case "shortText":
             default:
@@ -33,16 +45,19 @@ const InputQuestion = forwardRef<HTMLInputElement, InputQuestionProps>(
         }
 
         return (
-            <div className="flex gap-x-3 my-1.5 h-12">
-                {question.type.slug == "phoneNumber" && (
-                    <CountryCodeSelector />
+            <div className="flex gap-x-3">
+                {question.type.slug == "phoneNumber" && selectedCountry && (
+                    <CountryCodeSelector
+                        selected={selectedCountry}
+                        onSelect={setSelectedCountry}
+                    />
                 )}
 
-                {question.type.slug == "date" ? (
+                {mask ? (
                     <ReactInputMask
                         inputRef={ref}
                         {...rest}
-                        mask="99/99/9999"
+                        mask={mask}
                         placeholder={placeholder}
                         className="border-input hover:border-primary focus-visible:border-primary bg-background px-3 py-2 border rounded-md w-full h-10 text-sm phone:text-base transition-all outline-none"
                         readOnly={readOnly}

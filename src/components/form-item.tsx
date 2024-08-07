@@ -35,23 +35,19 @@ export function FormItem({ questions, mode = "submit" }: FormItemProps) {
                     </code>
                 </pre>
             ) : (
-                <div className="flex flex-col items-start gap-2 w-full">
-                    <p className="text-[15px] text-zinc-600">
-                        Question {currentQuestion.order + 1} of {questions.length}
-                    </p>
+                <div className="flex flex-col gap-4 w-full">
+                    <div className="space-y-1">
+                        <p className="text-[15px] text-zinc-600">
+                            Question {currentQuestion.order + 1} of {questions.length}
+                        </p>
 
-                    <div className="space-y-4 w-full">
                         <h1 className="font-medium text-xl">
                             {currentQuestion.title || "This question has no title."}
                             {!currentQuestion.isRequired && (" (optional)")}
                         </h1>
+                    </div>
 
-                        {/* {error && (
-                            <p className="text-destructive text-sm">
-                                Error: {error}
-                            </p>
-                        )} */}
-
+                    <div className="space-y-2 w-full">
                         {(["input", "text"].includes(currentQuestion.type.category.slug)) && (
                             <InputQuestionForm
                                 question={currentQuestion}

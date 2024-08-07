@@ -29,14 +29,16 @@ export async function PUT(request: Request, { params }: { params: { formId: stri
     const oldQuestions = await prisma.question.findMany({ where: { formId: form.id } })
     const newQuestionsIds = body.questions.map(q => q.id)
 
+    
     for (let question of oldQuestions) {
         if (!newQuestionsIds.includes(question.id)) {
             await prisma.question.delete({ where: { id: question.id } })
         }
     }
-
+    
     for (let question of body.questions) {
         const exists = await prisma.question.findUnique({ where: { id: question.id } })
+        // const exists = ((form as unknown) as TForm).questions.find(q => q.id == question.id) // Maybe???
 
         if (exists) {
             await prisma.question.update({
