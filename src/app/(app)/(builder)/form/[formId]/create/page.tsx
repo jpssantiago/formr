@@ -14,8 +14,7 @@ export default async function CreateFormPage() {
 
                 <div className="flex large:hidden h-full">
                     <div className="flex flex-col justify-center items-center p-5 border rounded-lg size-full">
-                        <CreateQuestionForm
-                        />
+                        <CreateQuestionForm />
                     </div>
                 </div>
 
@@ -24,7 +23,9 @@ export default async function CreateFormPage() {
                 </div>
             </div>
 
-            <QuestionSettings />
+            <div className="flex flex-col gap-4 large:hidden bg-zinc-100 p-3 rounded-lg w-60 h-full">
+                <QuestionSettings />
+            </div>
         </div>
     )
 }

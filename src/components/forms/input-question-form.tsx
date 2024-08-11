@@ -66,7 +66,6 @@ export function InputQuestionForm({ question, onContinue }: InputQuestionFormPro
         <QuestionForm 
             question={question}
             onSubmit={handleSubmit(onSubmit)}
-            isLoading={formState.isSubmitting}
             isValid={formState.isValid}
         >
             {question.type.slug == "longText" ? (

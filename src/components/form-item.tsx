@@ -4,6 +4,7 @@ import { useState } from "react"
 
 import { TQuestion } from "@/models/question"
 import { InputQuestionForm } from "./forms/input-question-form"
+import { RatingQuestionForm } from "./forms/rating-question-form"
 
 type FormItemProps = {
     questions: TQuestion[]
@@ -27,7 +28,7 @@ export function FormItem({ questions, mode = "submit" }: FormItemProps) {
     }
 
     return (
-        <div className="flex items-center mx-auto px-5 w-full max-w-[500px] h-full transition-all">
+        <div className="flex items-center mx-auto px-5 w-full max-w-[700px] h-full transition-all">
             {isFinished ? (
                 <pre className="flex justify-center w-full">
                     <code>
@@ -50,6 +51,13 @@ export function FormItem({ questions, mode = "submit" }: FormItemProps) {
                     <div className="space-y-2 w-full">
                         {(["input", "text"].includes(currentQuestion.type.category.slug)) && (
                             <InputQuestionForm
+                                question={currentQuestion}
+                                onContinue={handleContinue}
+                            />
+                        )}
+
+                        {currentQuestion.type.category.slug == "rating" && (
+                            <RatingQuestionForm
                                 question={currentQuestion}
                                 onContinue={handleContinue}
                             />

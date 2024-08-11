@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { useCreateForm } from "@/contexts/create-form-context"
 import { InputQuestion } from "./question-types/input-question"
 import { TextAreaQuestion } from "./question-types/text-area-question"
+import { OpinionScaleQuestion } from "./question-types/opinion-scale-question"
 
 type CreateQuestionFormProps = {
     question?: TQuestion
@@ -35,7 +36,7 @@ export function CreateQuestionForm({ question, mode = "desktop" }: CreateQuestio
     }, [selectedQuestion])
 
     return (
-        <div className="flex flex-col items-start gap-4 w-full max-w-[400px]">
+        <div className="flex flex-col items-start gap-4 w-full max-w-[700px]">
             <div className="space-y-1 w-full">
                 <p className="text-[15px] text-zinc-600">
                     Question {(activeQuestion?.order ?? 0) + 1} of {questions.length}
@@ -43,7 +44,7 @@ export function CreateQuestionForm({ question, mode = "desktop" }: CreateQuestio
 
                 <Textarea
                     ref={titleInputRef}
-                    placeholder="Your question here..."
+                    placeholder="Write your question here..."
                     className="p-0 border-none focus-visible:ring-0 focus-visible:ring-offset-0 w-full h-7 min-h-7 font-medium text-lg resize-none"
                     value={activeQuestion?.title}
                     onChange={e => {
@@ -75,8 +76,12 @@ export function CreateQuestionForm({ question, mode = "desktop" }: CreateQuestio
                 )}
 
                 {activeQuestion?.type.category.slug == "choice" && <p>choice</p>}
-                
-                {activeQuestion?.type.category.slug == "rating" && <p>rating</p>}
+
+                {activeQuestion?.type.slug == "opinionScale" && (
+                    <OpinionScaleQuestion
+                        question={activeQuestion}
+                    />
+                )}
             </div>
 
             {mode == "desktop" && (

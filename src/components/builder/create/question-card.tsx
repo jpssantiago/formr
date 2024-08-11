@@ -16,7 +16,7 @@ type QuestionCardProps = {
 }
 
 export function QuestionCard({ question }: QuestionCardProps) {
-    const { duplicateQuestion, questions, deleteQuestion, updateQuestion } = useCreateForm()
+    const { duplicateQuestion, questions, deleteQuestion } = useCreateForm()
 
     const titleInputRef = createRef<HTMLTextAreaElement>()
     const descriptionInputRef = createRef<HTMLTextAreaElement>()
@@ -51,7 +51,7 @@ export function QuestionCard({ question }: QuestionCardProps) {
                     mode="mobile"
                 />
 
-                <QuestionSettingsSheet question={question}>
+                <QuestionSettingsSheet>
                     <Settings
                         size={20}
                         className="mt-1 text-zinc-600 hover:text-black"

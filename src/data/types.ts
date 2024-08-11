@@ -7,7 +7,7 @@ import {
     Hash,
     Calendar,
     ToggleRight,
-    Laugh
+    BarChart
 } from "lucide-react"
 
 import { TQuestionType } from "@/models/question-type"
@@ -55,9 +55,9 @@ export const QUESTION_TYPES: TQuestionType[] = [
         name: "Yes / No",
         category: QUESTION_TYPES_CATEGORIES.find(c => c.slug == "choice")!,
     }, {
-        slug: "emoji",
-        icon: Laugh,
-        name: "Emoji",
+        slug: "opinionScale",
+        icon: BarChart,
+        name: "Opinion Scale",
         category: QUESTION_TYPES_CATEGORIES.find(c => c.slug == "rating")!,
     }
 ]
