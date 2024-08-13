@@ -24,6 +24,9 @@ export function QuestionTypeSelect() {
         <Select
             value={selectedQuestion?.type.slug}
             onValueChange={slug => {
+                // TODO: Maybe clean all the optional filds of the question whenever the type is changed.
+                // minValue, maxValue, leftPlaceholder, rightPlaceholder = null
+
                 updateQuestion({
                     ...selectedQuestion!,
                     type: QUESTION_TYPES.find(type => type.slug == slug)!

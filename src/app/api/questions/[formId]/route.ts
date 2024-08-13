@@ -29,7 +29,6 @@ export async function PUT(request: Request, { params }: { params: { formId: stri
     const oldQuestions = await prisma.question.findMany({ where: { formId: form.id } })
     const newQuestionsIds = body.questions.map(q => q.id)
 
-    
     for (let question of oldQuestions) {
         if (!newQuestionsIds.includes(question.id)) {
             await prisma.question.delete({ where: { id: question.id } })
@@ -60,7 +59,9 @@ export async function PUT(request: Request, { params }: { params: { formId: stri
                     formId: params.formId,
                     order: question.order,
                     buttonText: question.buttonText,
-                    isRequired: true
+                    isRequired: true,
+                    leftPlaceholder: question.leftPlaceholder,
+                    rightPlaceholder: question.rightPlaceholder
                 }
             })
         }

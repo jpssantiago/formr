@@ -12,4 +12,7 @@ export type TQuestion = {
 
     minValue?: number
     maxValue?: number
+
+    leftPlaceholder?: string
+    rightPlaceholder?: string
 }

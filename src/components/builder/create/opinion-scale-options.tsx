@@ -2,6 +2,7 @@
 
 import { useCreateForm } from "@/contexts/create-form-context"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { LabelInput } from "@/components/ui/label-input"
 
 export function OpinionScaleOptions() {
     return (
@@ -15,6 +16,10 @@ export function OpinionScaleOptions() {
 
                 <MaxValueSelect />
             </div>
+
+            <LeftLabelInput />
+
+            <RightLabelInput />
         </div>
     )
 }
@@ -25,7 +30,7 @@ export function MinValueSelect() {
     const minValue = (selectedQuestion?.minValue ?? 0).toString()
 
     return (
-        <Select 
+        <Select
             value={minValue}
             onValueChange={value => {
                 updateQuestion({
@@ -78,5 +83,41 @@ export function MaxValueSelect() {
                 })}
             </SelectContent>
         </Select>
+    )
+}
+
+export function LeftLabelInput() {
+    const { selectedQuestion, updateQuestion } = useCreateForm()
+
+    return (
+        <LabelInput
+            label="Left label"
+            placeholder="Not likely at all"
+            value={selectedQuestion?.leftPlaceholder ?? "Not likely at all"}
+            onChange={e => {
+                updateQuestion({
+                    ...selectedQuestion!,
+                    leftPlaceholder: e.target.value
+                })
+            }}
+        />
+    )
+}
+
+export function RightLabelInput() {
+    const { selectedQuestion, updateQuestion } = useCreateForm()
+
+    return (
+        <LabelInput
+            label="Right label"
+            placeholder="Extremelly likely"
+            value={selectedQuestion?.rightPlaceholder ?? "Extremely likely"}
+            onChange={e => {
+                updateQuestion({
+                    ...selectedQuestion!,
+                    rightPlaceholder: e.target.value
+                })
+            }}
+        />
     )
 }

@@ -33,11 +33,11 @@ export function OpinionScaleQuestion({ question, onSelect, selectedAnswer }: Opi
 
             <div className="flex justify-between text-sm text-zinc-600">
                 <p>
-                    Not likely at all
+                    {question.leftPlaceholder ?? "Not likely at all"}
                 </p>
 
                 <p className="text-end">
-                    Extremelly likely
+                    {question.rightPlaceholder ?? "Extremelly likely"}
                 </p>
             </div>
         </div>

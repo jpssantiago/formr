@@ -108,6 +108,9 @@ model Question {
   minValue Float?
   maxValue Float?
 
+  leftPlaceholder String?
+  rightPlaceholder String?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
