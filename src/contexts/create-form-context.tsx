@@ -62,7 +62,7 @@ export function CreateFormProvider({ children }: { children: ReactNode }) {
             await QuestionService.saveQuestions(form.id, questions)
             setIsSaving(false)
             setShouldSave(false)
-        }, 3000))
+        }, 2500))
     }, [questions])
 
     function updateQuestion(question: TQuestion) {
@@ -97,12 +97,14 @@ export function CreateFormProvider({ children }: { children: ReactNode }) {
         })
 
         if (selectedQuestion?.id == question.id) {
-            if (question.order == form.questions.length - 1) {
-                setSelectedQuestion(form.questions[question.order - 1])
+            if (question.order == questions.length - 1) {
+                setSelectedQuestion(questions[question.order - 1])
             } else {
-                setSelectedQuestion(form.questions[question.order + 1])
+                setSelectedQuestion(questions[question.order + 1])
             }
         }
+
+        // TODO: Change the question.order and sort all the questions.
 
         setQuestions(arr)
         setShouldSave(true)
@@ -145,7 +147,7 @@ export function CreateFormProvider({ children }: { children: ReactNode }) {
             order: questions.length,
             title: "",
             description: "",
-            isRequired: false,
+            isRequired: true,
             buttonText: "Continue",
             type,
         }

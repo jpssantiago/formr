@@ -1,21 +1,25 @@
 import { ElementType } from "react"
 
-import { Button, ButtonProps } from "./button"
+import { Button, ButtonProps } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
 type IconButtonProps = ButtonProps & {
     icon: ElementType
+    className?: string
     iconSize?: number
 }
 
-export function IconButton({ icon: Icon, iconSize = 20, ...rest }: IconButtonProps) {
+export function IconButton({ icon: Icon, className, iconSize = 18, ...rest }: IconButtonProps) {
     return (
-        <Button {...rest} className={cn("flex items-center gap-2", rest.className)}>
+        <Button
+            {...rest}
+            size="icon"
+            variant="ghost"
+            className={cn("hover:bg-zinc-200 h-9 text-zinc-600 hover:text-black", className)}
+        >
             <Icon
                 size={iconSize}
             />
-
-            {rest.children}
         </Button>
     )
 }

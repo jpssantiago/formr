@@ -101,13 +101,15 @@ model Form {
 model Question {
   id String @id @default(cuid())
   title String
-  description String
   order Int
   buttonText String
   isRequired Boolean @default(false)
 
   minValue Float?
   maxValue Float?
+
+  leftPlaceholder String?
+  rightPlaceholder String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

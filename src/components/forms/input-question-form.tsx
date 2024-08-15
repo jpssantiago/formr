@@ -5,12 +5,13 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 
 import { TQuestion } from "@/models/question"
-import { FormItemWrapper } from "@/components/form-item-wrapper"
+import { QuestionForm } from "./question-form"
 import { InputQuestion } from "@/components/question-types/input-question"
+import { TextAreaQuestion } from "@/components/question-types/text-area-question"
 
 type InputQuestionFormProps = {
     question: TQuestion
-    onContinue: () => void
+    onContinue: (value: string | number) => void
 }
 
 export function InputQuestionForm({ question, onContinue }: InputQuestionFormProps) {
@@ -23,13 +24,15 @@ export function InputQuestionForm({ question, onContinue }: InputQuestionFormPro
             case "email":
                 return z.string().email()
             case "phoneNumber":
-                return z.string() // TODO: Validate the phone number
+                return z.string().min(4) // TODO: Validate the phone number
             case "number":
                 return z.coerce.number()
             case "date":
-                return z.string() // TODO: Let the user choose the format (ex: dd/mm/yyyy, mm/dd/yyyy, yyyy/mm/dd, yyyy/dd/mm)
+                return z.string().min(10).max(10)
+            // TODO: Let the user choose the format (ex: dd/mm/yyyy, mm/dd/yyyy, yyyy/mm/dd, yyyy/dd/mm)
             default:
-                return z.string().min(1)
+                const schema = z.string().min(question.minValue ?? 1)
+                return question.maxValue ? schema.max(question.maxValue) : schema
         }
     }
 
@@ -39,28 +42,43 @@ export function InputQuestionForm({ question, onContinue }: InputQuestionFormPro
 
     type SchemaType = z.infer<typeof schema>
 
-    const { handleSubmit, register, formState } = useForm<SchemaType>({
+    const { handleSubmit, register, formState, reset } = useForm<SchemaType>({
         resolver: zodResolver(schema)
     })
 
     function onSubmit({ value }: SchemaType) {
-        console.log(value)
-        onContinue()
+        onContinue(value)
+        reset()
+    }
+
+    function getInputType(): string {
+        switch (question.type.slug) {
+            case "number":
+            case "email":
+            case "date":
+                return question.type.slug
+            default:
+                return "text"
+        }
     }
 
     return (
-        <FormItemWrapper 
+        <QuestionForm 
             question={question}
-            onSubmit={handleSubmit(onSubmit)} 
-            error={formState.errors.root?.message || formState.errors.value?.message || ""}
-            isLoading={formState.isSubmitting}
+            onSubmit={handleSubmit(onSubmit)}
             isValid={formState.isValid}
         >
-            <InputQuestion
-                question={question}
-                readOnly={false}
-                {...register("value")}
-            />
-        </FormItemWrapper>
+            {question.type.slug == "longText" ? (
+                <TextAreaQuestion
+                    {...register("value")}
+                />
+            ) : (
+                <InputQuestion
+                    question={question}
+                    type={getInputType()}
+                    {...register("value")}
+                />
+            )}
+        </QuestionForm>
     )
 }

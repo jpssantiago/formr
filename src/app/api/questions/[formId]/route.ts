@@ -34,9 +34,10 @@ export async function PUT(request: Request, { params }: { params: { formId: stri
             await prisma.question.delete({ where: { id: question.id } })
         }
     }
-
+    
     for (let question of body.questions) {
         const exists = await prisma.question.findUnique({ where: { id: question.id } })
+        // const exists = ((form as unknown) as TForm).questions.find(q => q.id == question.id) // Maybe???
 
         if (exists) {
             await prisma.question.update({
@@ -45,18 +46,22 @@ export async function PUT(request: Request, { params }: { params: { formId: stri
                 },
                 data: {
                     ...question,
-                    type: question.type.slug
+                    type: question.type.slug,
+                    minValue: question.minValue || null,
+                    maxValue: question.maxValue || null,
                 }
             })
         } else {
             await prisma.question.create({
                 data: {
                     title: question.title,
-                    description: question.description ?? "",
                     type: question.type.slug,
                     formId: params.formId,
                     order: question.order,
                     buttonText: question.buttonText,
+                    isRequired: true,
+                    leftPlaceholder: question.leftPlaceholder,
+                    rightPlaceholder: question.rightPlaceholder
                 }
             })
         }

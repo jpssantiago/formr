@@ -23,11 +23,11 @@ export async function POST() {
     const question = await prisma.question.create({
         data: {
             title: "",
-            description: "",
             order: 0,
             buttonText: "Continue",
             type: "shortText",
-            formId: form.id
+            formId: form.id,
+            isRequired: true
         }
     })
     

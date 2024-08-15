@@ -1,9 +1,10 @@
 import { z } from "zod"
 import { NextResponse } from "next/server"
+import { Folder } from "@prisma/client"
 
-import { getFolder } from "@/actions/get-folder"
-import { getForm } from "@/actions/get-form"
 import { getUser } from "@/actions/get-user"
+import { getForm } from "@/actions/get-form"
+import { getFolder } from "@/actions/get-folder"
 import { prisma } from "@/lib/prisma"
 
 const bodySchema = z.object({
@@ -30,8 +31,9 @@ export async function POST(request: Request, { params }: { params: { formId: str
         return new NextResponse("Unauthorized", { status: 401 })
     }
 
+    let folder: Folder | null = null
     if (body.folderId) {
-        const folder = await getFolder(body.folderId)
+        folder = await getFolder(body.folderId)
         if (!folder) {
             return new NextResponse("Folder not found", { status: 404 })
         }
@@ -39,27 +41,16 @@ export async function POST(request: Request, { params }: { params: { formId: str
         if (folder.userId != user.id) {
             return new NextResponse("Unauthorized", { status: 401 })
         }
-
-        return NextResponse.json({
-            form: await prisma.form.update({
-                data: {
-                    folderId: body.folderId
-                },
-                where: {
-                    id: params.formId
-                }
-            })
-        })
-    } else {
-        return NextResponse.json({
-            form: await prisma.form.update({
-                data: {
-                    folderId: null
-                },
-                where: {
-                    id: params.formId
-                }
-            })
-        })
     }
+
+    return NextResponse.json({
+        form: await prisma.form.update({
+            data: {
+                folderId: folder ? folder.id : null
+            },
+            where: {
+                id: params.formId
+            }
+        })
+    })
 }

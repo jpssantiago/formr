@@ -3,7 +3,6 @@ import { TQuestionType } from "./question-type"
 export type TQuestion = {
     id: string
     title: string
-    description?: string
     order: number
     buttonText: string
 
@@ -13,4 +12,7 @@ export type TQuestion = {
 
     minValue?: number
     maxValue?: number
+
+    leftPlaceholder?: string
+    rightPlaceholder?: string
 }
