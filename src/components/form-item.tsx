@@ -5,6 +5,7 @@ import { useState } from "react"
 import { TQuestion } from "@/models/question"
 import { InputQuestionForm } from "./forms/input-question-form"
 import { RatingQuestionForm } from "./forms/rating-question-form"
+import { ChoiceQuestionForm } from "./forms/choice-question-form"
 
 type FormItemProps = {
     questions: TQuestion[]
@@ -58,6 +59,13 @@ export function FormItem({ questions, mode = "submit" }: FormItemProps) {
 
                         {currentQuestion.type.category.slug == "rating" && (
                             <RatingQuestionForm
+                                question={currentQuestion}
+                                onContinue={handleContinue}
+                            />
+                        )}
+
+                        {currentQuestion.type.category.slug == "choice" && (
+                            <ChoiceQuestionForm
                                 question={currentQuestion}
                                 onContinue={handleContinue}
                             />

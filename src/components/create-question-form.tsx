@@ -9,6 +9,7 @@ import { useCreateForm } from "@/contexts/create-form-context"
 import { InputQuestion } from "./question-types/input-question"
 import { TextAreaQuestion } from "./question-types/text-area-question"
 import { OpinionScaleQuestion } from "./question-types/opinion-scale-question"
+import { YesNoQuestion } from "./question-types/yes-no-question"
 
 type CreateQuestionFormProps = {
     question?: TQuestion
@@ -75,7 +76,11 @@ export function CreateQuestionForm({ question, mode = "desktop" }: CreateQuestio
                     />
                 )}
 
-                {activeQuestion?.type.category.slug == "choice" && <p>choice</p>}
+                {activeQuestion?.type.slug == "yesNo" && (
+                    <YesNoQuestion
+                        question={activeQuestion}
+                    />
+                )}
 
                 {activeQuestion?.type.slug == "opinionScale" && (
                     <OpinionScaleQuestion
