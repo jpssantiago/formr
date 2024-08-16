@@ -20,7 +20,12 @@ export function QuestionListItem({ question, onSelect, isSelected }: QuestionLis
     return (
         <div
             onClick={onSelect}
-            className={cn(`group gap-3 flex justify-between items-center hover:bg-zinc-200 px-3 rounded-lg h-12 transition-all cursor-pointer`, isSelected && "bg-zinc-200")}
+            className={
+                cn(
+                    `group gap-3 flex justify-between items-center hover:bg-zinc-200 px-3 rounded-lg h-12 transition-all cursor-pointer select-none`,
+                    isSelected && "bg-zinc-200",
+                )
+            }
         >
             <div className="flex items-center gap-3 overflow-hidden">
                 <QuestionTypeBadge question={question} />

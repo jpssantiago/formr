@@ -20,8 +20,9 @@ export function FormItem({ questions, mode = "submit" }: FormItemProps) {
     function handleContinue(value: string | number) {
         setAnswers([...answers, value])
 
-        if (currentQuestion.order < questions.length - 1) {
-            setCurrentQuestion(questions[currentQuestion.order + 1])
+        const currentQuestionIndex = questions.findIndex(q => q.id == currentQuestion.id)
+        if (currentQuestionIndex < questions.length - 1) {
+            setCurrentQuestion(questions[currentQuestionIndex + 1])
         } else {
             setIsFinished(true)
             // TODO: Save the answers
@@ -40,7 +41,7 @@ export function FormItem({ questions, mode = "submit" }: FormItemProps) {
                 <div className="flex flex-col gap-4 w-full">
                     <div className="space-y-1">
                         <p className="text-[15px] text-zinc-600">
-                            Question {currentQuestion.order + 1} of {questions.length}
+                            Question {questions.findIndex(q => q.id == currentQuestion.id) + 1} of {questions.length}
                         </p>
 
                         <h1 className="font-medium text-xl">

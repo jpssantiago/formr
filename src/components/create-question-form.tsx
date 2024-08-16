@@ -40,7 +40,7 @@ export function CreateQuestionForm({ question, mode = "desktop" }: CreateQuestio
         <div className="flex flex-col items-start gap-4 w-full max-w-[700px]">
             <div className="space-y-1 w-full">
                 <p className="text-[15px] text-zinc-600">
-                    Question {(activeQuestion?.order ?? 0) + 1} of {questions.length}
+                    Question {questions.findIndex(q => q.id == selectedQuestion?.id) + 1} of {questions.length}
                 </p>
 
                 <Textarea

@@ -25,6 +25,8 @@ type CreateFormContextType = {
     publishForm: () => Promise<FormResponse>
 
     isSaving: boolean
+
+    reorderQuestions: (newQuestions: TQuestion[]) => void
 }
 
 const CreateFormContext = createContext({} as CreateFormContextType)
@@ -85,26 +87,16 @@ export function CreateFormProvider({ children }: { children: ReactNode }) {
         if (!form) return
         if (questions.length == 1) return
 
-        const arr = questions.filter(q => q.id != question.id).map(q => {
-            if (q.order >= question.order) {
-                return {
-                    ...q,
-                    order: q.order - 1
-                }
-            }
-
-            return q
-        })
+        const arr = questions.filter(q => q.id != question.id)
 
         if (selectedQuestion?.id == question.id) {
-            if (question.order == questions.length - 1) {
-                setSelectedQuestion(questions[question.order - 1])
+            const index = questions.findIndex(q => q.id == question.id)
+            if (index == questions.length - 1) {
+                setSelectedQuestion(questions[index - 1])
             } else {
-                setSelectedQuestion(questions[question.order + 1])
+                setSelectedQuestion(questions[index + 1])
             }
         }
-
-        // TODO: Change the question.order and sort all the questions.
 
         setQuestions(arr)
         setShouldSave(true)
@@ -115,24 +107,12 @@ export function CreateFormProvider({ children }: { children: ReactNode }) {
 
         const newQuestion = {
             ...question,
-            order: question.order + 1,
             id: createId()
         }
 
-        const arr = questions.map(q => {
-            if (q.order > question.order) {
-                return {
-                    ...q,
-                    order: q.order + 1
-                }
-            }
-
-            return q
-        })
-
-        arr.push(newQuestion)
-
-        arr.sort((a, b) => a.order - b.order)
+        const arr = [...questions]
+        const referenceQuestionIndex = questions.findIndex(q => q.id == question.id)
+        arr.splice(referenceQuestionIndex + 1, 0, newQuestion)
 
         setQuestions(arr)
         setSelectedQuestion(newQuestion)
@@ -175,6 +155,12 @@ export function CreateFormProvider({ children }: { children: ReactNode }) {
         return response
     }
 
+    function reorderQuestions(newQuestions: TQuestion[]) {
+        setQuestions(newQuestions)
+
+        setShouldSave(true)
+    }
+
     const value = {
         form,
         loadForm,
@@ -191,6 +177,8 @@ export function CreateFormProvider({ children }: { children: ReactNode }) {
         publishForm,
 
         isSaving,
+
+        reorderQuestions
     }
 
     return (
