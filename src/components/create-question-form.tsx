@@ -77,9 +77,7 @@ export function CreateQuestionForm({ question, mode = "desktop" }: CreateQuestio
                 )}
 
                 {activeQuestion?.type.slug == "yesNo" && (
-                    <YesNoQuestion
-                        question={activeQuestion}
-                    />
+                    <YesNoQuestion />
                 )}
 
                 {activeQuestion?.type.slug == "opinionScale" && (

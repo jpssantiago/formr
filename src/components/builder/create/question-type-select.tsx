@@ -29,7 +29,11 @@ export function QuestionTypeSelect() {
 
                 updateQuestion({
                     ...selectedQuestion!,
-                    type: QUESTION_TYPES.find(type => type.slug == slug)!
+                    type: QUESTION_TYPES.find(type => type.slug == slug)!,
+                    minValue: undefined,
+                    maxValue: undefined,
+                    leftPlaceholder: undefined,
+                    rightPlaceholder: undefined
                 })
             }}
         >
