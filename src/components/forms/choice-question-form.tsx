@@ -12,10 +12,12 @@ type ChoiceQuestionFormProps = {
 }
 
 export function ChoiceQuestionForm({ question, onContinue }: ChoiceQuestionFormProps) {
-    const [answer, setAnswer] = useState<string>()
+    const [answer, setAnswer] = useState<string>("")
+
+    const isValid = question.isRequired ? !!answer : true
 
     function handleSubmit() {
-        if (!answer) return
+        if (!isValid) return
 
         onContinue(answer)
         setAnswer("")
@@ -25,11 +27,10 @@ export function ChoiceQuestionForm({ question, onContinue }: ChoiceQuestionFormP
         <QuestionForm
             question={question}
             onSubmit={handleSubmit}
-            isValid={!!answer}
+            isValid={isValid}
         >
             {question.type.slug == "yesNo" && (
                 <YesNoQuestion
-                    question={question}
                     onSelect={value => setAnswer(value == answer ? "" : value)}
                     selectedAnswer={answer}
                 />

@@ -68,6 +68,7 @@ const InputQuestion = forwardRef<HTMLInputElement, InputQuestionProps>(
                         {...rest}
                         placeholder={placeholder}
                         readOnly={readOnly}
+                        type={(question.type.slug == "phoneNumber" || question.type.slug == "number") ? "number" : "text"}
                     />
                 )}
             </div>

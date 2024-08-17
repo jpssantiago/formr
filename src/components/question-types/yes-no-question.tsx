@@ -1,9 +1,7 @@
-import { TQuestion } from "@/models/question"
 import { TEmojiOption } from "@/models/emoji-option"
 import { EmojiOption } from "@/components/ui/emoji-option"
 
 type YesNoQuestionProps = {
-    question: TQuestion
     onSelect?: (value: string) => void
     selectedAnswer?: string
 }
@@ -18,7 +16,7 @@ const options: TEmojiOption[] = [
     }
 ]
 
-export function YesNoQuestion({ question, onSelect, selectedAnswer }: YesNoQuestionProps) {
+export function YesNoQuestion({ onSelect, selectedAnswer }: YesNoQuestionProps) {
     return (
         <div className="flex gap-2">
             {options.map((option, index) => (

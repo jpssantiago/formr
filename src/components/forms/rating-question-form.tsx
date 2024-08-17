@@ -14,12 +14,14 @@ type RatingQuestionFormProps = {
 export function RatingQuestionForm({ question, onContinue }: RatingQuestionFormProps) {
     const [answer, setAnswer] = useState<string>("")
 
+    const isValid = question.isRequired ? !!answer : true
+
     function handleSelect(value: string) {
         setAnswer(value == answer ? "" : value)
     }
 
     function handleSubmit() {
-        if (!answer) return
+        if (!isValid) return
 
         onContinue(answer)
         setAnswer("")
@@ -29,7 +31,7 @@ export function RatingQuestionForm({ question, onContinue }: RatingQuestionFormP
         <QuestionForm
             question={question}
             onSubmit={handleSubmit}
-            isValid={!!answer}
+            isValid={isValid}
         >
             {question.type.slug == "opinionScale" && (
                 <OpinionScaleQuestion
