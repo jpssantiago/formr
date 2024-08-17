@@ -28,7 +28,7 @@ export function InputQuestionForm({ question, onContinue }: InputQuestionFormPro
             case "number":
                 return z.coerce.number()
             case "date":
-                return z.string().min(10).max(10)
+                return z.coerce.date()
             // TODO: Let the user choose the format (ex: dd/mm/yyyy, mm/dd/yyyy, yyyy/mm/dd, yyyy/dd/mm)
             default:
                 const schema = z.string().min(question.minValue ?? 1)
@@ -47,7 +47,7 @@ export function InputQuestionForm({ question, onContinue }: InputQuestionFormPro
     })
 
     function onSubmit({ value }: SchemaType) {
-        onContinue(value)
+        onContinue(value.toString())
         reset()
     }
 
@@ -55,7 +55,6 @@ export function InputQuestionForm({ question, onContinue }: InputQuestionFormPro
         switch (question.type.slug) {
             case "number":
             case "email":
-            case "date":
                 return question.type.slug
             default:
                 return "text"

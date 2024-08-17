@@ -13,7 +13,7 @@ const TextAreaQuestion = forwardRef<HTMLTextAreaElement, TextAreaQuestionProps>(
                 ref={ref}
                 {...rest}
                 placeholder="Your answer (multi-line)..."
-                className={`mb-5 hover:border-primary focus-visible:border-primary focus-visible:ring-0 focus-visible:ring-offset-0 ${readOnly ? "h-20" : "h-[38px]"} min-h-[38px] transition-colors resize-none transparent-scroll`}
+                className={`hover:border-primary focus-visible:border-primary focus-visible:ring-0 focus-visible:ring-offset-0 ${readOnly ? "h-20" : "h-[38px]"} min-h-[38px] transition-colors resize-none transparent-scroll`}
                 onInput={event => {
                     const textarea = event.currentTarget
                     textarea.style.height = "38px"
