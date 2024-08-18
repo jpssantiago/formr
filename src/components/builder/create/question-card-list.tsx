@@ -1,10 +1,10 @@
 "use client"
 
-import { useCreateForm } from "@/contexts/create-form-context"
+import { useFormBuilder } from "@/contexts/use-form-builder"
 import { QuestionCard } from "./question-card"
 
 export function QuestionCardList() {
-    const { questions } = useCreateForm()
+    const { questions } = useFormBuilder()
 
     return (
         <div className="flex flex-col gap-5 h-full overflow-y-scroll">

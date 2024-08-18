@@ -1,7 +1,7 @@
 "use client"
 
 import { QUESTION_TYPES } from "@/data/types"
-import { useCreateForm } from "@/contexts/create-form-context"
+import { useFormBuilder } from "@/contexts/use-form-builder"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { cn } from "@/lib/utils"
 
@@ -18,15 +18,12 @@ const types = QUESTION_TYPES.sort((b, a) => {
 })
 
 export function QuestionTypeSelect() {
-    const { selectedQuestion, updateQuestion } = useCreateForm()
+    const { selectedQuestion, updateQuestion } = useFormBuilder()
 
     return (
         <Select
             value={selectedQuestion?.type.slug}
             onValueChange={slug => {
-                // TODO: Maybe clean all the optional filds of the question whenever the type is changed.
-                // minValue, maxValue, leftPlaceholder, rightPlaceholder = null
-
                 updateQuestion({
                     ...selectedQuestion!,
                     type: QUESTION_TYPES.find(type => type.slug == slug)!,

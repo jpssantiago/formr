@@ -3,7 +3,7 @@ import { Inter } from "next/font/google"
 import { Toaster } from "sonner"
 
 import { SessionWrapper } from "@/components/session-wrapper"
-import { CreateFormProvider } from "@/contexts/create-form-context"
+import { CreateFormProvider } from "@/contexts/use-form-builder"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import "./globals.css"
 

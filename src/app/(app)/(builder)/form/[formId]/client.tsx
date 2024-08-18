@@ -4,7 +4,7 @@ import { ReactNode, useEffect } from "react"
 import { Form, Question } from "@prisma/client"
 
 import { TForm } from "@/models/form"
-import { useCreateForm } from "@/contexts/create-form-context"
+import { useFormBuilder } from "@/contexts/use-form-builder"
 import { TopBar } from "@/components/builder/top-bar/top-bar"
 import { QUESTION_TYPES } from "@/data/types"
 
@@ -14,7 +14,7 @@ type FormPageClientLayoutProps = {
 }
 
 export default function FormPageClientLayout({ form, children }: FormPageClientLayoutProps) {
-    const { loadForm } = useCreateForm()
+    const { loadForm } = useFormBuilder()
 
     useEffect(() => {
         loadForm({

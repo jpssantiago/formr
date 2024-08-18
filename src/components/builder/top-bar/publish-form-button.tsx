@@ -6,7 +6,7 @@ import { Globe, GlobeLock } from "lucide-react"
 
 import { LoadingButton } from "@/components/ui/loading-button"
 import { FormPublishedDialog } from "./form-published-dialog"
-import { useCreateForm } from "@/contexts/create-form-context"
+import { useFormBuilder } from "@/contexts/use-form-builder"
 
 type PublishFormButtonProps = {
     formId: string
@@ -16,7 +16,7 @@ export function PublishFormButton({ formId }: PublishFormButtonProps) {
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [open, setOpen] = useState<boolean>(false)
 
-    const { form, publishForm } = useCreateForm()
+    const { form, publishForm } = useFormBuilder()
 
     async function onPublish() {
         if (isLoading) return

@@ -2,12 +2,12 @@
 
 import { Loader } from "lucide-react"
 
-import { useCreateForm } from "@/contexts/create-form-context"
+import { useFormBuilder } from "@/contexts/use-form-builder"
 import { cn } from "@/lib/utils"
 import { PublishFormButton } from "./publish-form-button"
 
 export function PublishFormSection({ formId }: { formId: string }) {
-    const { isSaving } = useCreateForm()
+    const { isSaving } = useFormBuilder()
     
     return (
         <div className="flex flex-1 medium:flex-auto justify-end items-center gap-5 medium:w-fit">

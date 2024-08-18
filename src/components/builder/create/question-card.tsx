@@ -4,7 +4,7 @@ import { createRef, useEffect } from "react"
 import { Copy, Settings, Trash2 } from "lucide-react"
 
 import { TQuestion } from "@/models/question"
-import { useCreateForm } from "@/contexts/create-form-context"
+import { useFormBuilder } from "@/contexts/use-form-builder"
 import { TextIconButton } from "@/components/ui/text-icon-button"
 import { QuestionTypeBadge } from "@/components/question-type-badge"
 import { Separator } from "@/components/ui/separator"
@@ -16,7 +16,7 @@ type QuestionCardProps = {
 }
 
 export function QuestionCard({ question }: QuestionCardProps) {
-    const { duplicateQuestion, questions, deleteQuestion } = useCreateForm()
+    const { duplicateQuestion, questions, deleteQuestion } = useFormBuilder()
 
     const titleInputRef = createRef<HTMLTextAreaElement>()
     const descriptionInputRef = createRef<HTMLTextAreaElement>()

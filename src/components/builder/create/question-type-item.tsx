@@ -1,12 +1,12 @@
 "use client"
 
 import { TQuestionType } from "@/models/question-type"
-import { useCreateForm } from "@/contexts/create-form-context"
+import { useFormBuilder } from "@/contexts/use-form-builder"
 import { cn } from "@/lib/utils"
 import { DialogClose } from "@/components/ui/dialog"
 
 export function QuestionTypeItem({ type }: { type: TQuestionType }) {
-    const { addQuestion } = useCreateForm()
+    const { addQuestion } = useFormBuilder()
 
     function onClick() {
         addQuestion(type)

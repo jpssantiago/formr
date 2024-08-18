@@ -1,6 +1,6 @@
 "use client"
 
-import { useCreateForm } from "@/contexts/create-form-context"
+import { useFormBuilder } from "@/contexts/use-form-builder"
 import { Separator } from "@/components/ui/separator"
 import { MinMaxValueOption } from "./min-max-value-option"
 import { OpinionScaleOptions } from "./opinion-scale-options"
@@ -9,7 +9,7 @@ import { RequiredQuestionSwitch } from "./required-question-switch"
 import { QuestionButtonTextInput } from "./question-button-text-input"
 
 export function QuestionSettings() {
-    const { selectedQuestion } = useCreateForm()
+    const { selectedQuestion } = useFormBuilder()
 
     return (
         <>

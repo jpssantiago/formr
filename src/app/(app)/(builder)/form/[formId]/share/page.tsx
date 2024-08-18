@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { toast } from "sonner"
 import { Link, Mail, Pen, QrCode, Linkedin } from "lucide-react"
 
-import { useCreateForm } from "@/contexts/create-form-context"
+import { useFormBuilder } from "@/contexts/use-form-builder"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import { TextIconButton } from "@/components/ui/text-icon-button"
@@ -16,7 +16,7 @@ import { IconButton } from "@/components/ui/icon-button"
 export default function ShareFormPage() {
     const [url, setUrl] = useState<string>("")
 
-    const { form, questions } = useCreateForm()
+    const { form, questions } = useFormBuilder()
 
     function copyToClipboard() {
         navigator.clipboard.writeText(url)

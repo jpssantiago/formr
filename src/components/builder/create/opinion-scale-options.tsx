@@ -1,6 +1,6 @@
 "use client"
 
-import { useCreateForm } from "@/contexts/create-form-context"
+import { useFormBuilder } from "@/contexts/use-form-builder"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { LabelInput } from "@/components/ui/label-input"
 
@@ -25,7 +25,7 @@ export function OpinionScaleOptions() {
 }
 
 export function MinValueSelect() {
-    const { selectedQuestion, updateQuestion } = useCreateForm()
+    const { selectedQuestion, updateQuestion } = useFormBuilder()
 
     const minValue = (selectedQuestion?.minValue ?? 0).toString()
 
@@ -53,7 +53,7 @@ export function MinValueSelect() {
 }
 
 export function MaxValueSelect() {
-    const { selectedQuestion, updateQuestion } = useCreateForm()
+    const { selectedQuestion, updateQuestion } = useFormBuilder()
 
     const maxValue = (selectedQuestion?.maxValue ?? 10).toString()
 
@@ -87,7 +87,7 @@ export function MaxValueSelect() {
 }
 
 export function LeftLabelInput() {
-    const { selectedQuestion, updateQuestion } = useCreateForm()
+    const { selectedQuestion, updateQuestion } = useFormBuilder()
 
     return (
         <LabelInput
@@ -105,7 +105,7 @@ export function LeftLabelInput() {
 }
 
 export function RightLabelInput() {
-    const { selectedQuestion, updateQuestion } = useCreateForm()
+    const { selectedQuestion, updateQuestion } = useFormBuilder()
 
     return (
         <LabelInput

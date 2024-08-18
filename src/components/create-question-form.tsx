@@ -5,7 +5,7 @@ import { createRef, useEffect } from "react"
 import { TQuestion } from "@/models/question"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
-import { useCreateForm } from "@/contexts/create-form-context"
+import { useFormBuilder } from "@/contexts/use-form-builder"
 import { InputQuestion } from "./question-types/input-question"
 import { TextAreaQuestion } from "./question-types/text-area-question"
 import { OpinionScaleQuestion } from "./question-types/opinion-scale-question"
@@ -17,7 +17,7 @@ type CreateQuestionFormProps = {
 }
 
 export function CreateQuestionForm({ question, mode = "desktop" }: CreateQuestionFormProps) {
-    const { selectedQuestion, updateQuestion, questions } = useCreateForm()
+    const { selectedQuestion, updateQuestion, questions } = useFormBuilder()
 
     const titleInputRef = createRef<HTMLTextAreaElement>()
     const descriptionInputRef = createRef<HTMLTextAreaElement>()

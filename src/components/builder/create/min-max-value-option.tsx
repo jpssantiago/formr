@@ -1,12 +1,12 @@
 "use client"
 
-import { useCreateForm } from "@/contexts/create-form-context"
+import { useFormBuilder } from "@/contexts/use-form-builder"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
 import { Input } from "@/components/ui/input"
 
 export function MinMaxValueOption() {
-    const { selectedQuestion, updateQuestion } = useCreateForm()
+    const { selectedQuestion, updateQuestion } = useFormBuilder()
 
     const hasMin = !!selectedQuestion?.minValue
     const hasMax = !!selectedQuestion?.maxValue

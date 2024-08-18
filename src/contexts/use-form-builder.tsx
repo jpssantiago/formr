@@ -9,7 +9,7 @@ import { TForm } from "@/models/form"
 import { QuestionService } from "@/services/question-service"
 import { FormResponse, FormService } from "@/services/form-service"
 
-type CreateFormContextType = {
+type UseFormBuilderContextType = {
     form?: TForm
     loadForm: (form: TForm) => void
 
@@ -29,10 +29,10 @@ type CreateFormContextType = {
     reorderQuestions: (newQuestions: TQuestion[]) => void
 }
 
-const CreateFormContext = createContext({} as CreateFormContextType)
+const UseFormBuilderContext = createContext({} as UseFormBuilderContextType)
 
-export function useCreateForm() {
-    return useContext(CreateFormContext)
+export function useFormBuilder() {
+    return useContext(UseFormBuilderContext)
 }
 
 export function CreateFormProvider({ children }: { children: ReactNode }) {
@@ -182,8 +182,8 @@ export function CreateFormProvider({ children }: { children: ReactNode }) {
     }
 
     return (
-        <CreateFormContext.Provider value={value}>
+        <UseFormBuilderContext.Provider value={value}>
             {children}
-        </CreateFormContext.Provider>
+        </UseFormBuilderContext.Provider>
     )
 }

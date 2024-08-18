@@ -1,10 +1,10 @@
 "use client"
 
-import { useCreateForm } from "@/contexts/create-form-context"
+import { useFormBuilder } from "@/contexts/use-form-builder"
 import { Input } from "@/components/ui/input"
 
 export function QuestionButtonTextInput() {
-    const { selectedQuestion, updateQuestion } = useCreateForm()
+    const { selectedQuestion, updateQuestion } = useFormBuilder()
 
     return (
         <div className="space-y-0.5">

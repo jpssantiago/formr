@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation"
 import { Play, Plus } from "lucide-react"
 
-import { useCreateForm } from "@/contexts/create-form-context"
+import { useFormBuilder } from "@/contexts/use-form-builder"
 import { TextIconButton } from "@/components/ui/text-icon-button"
 import { AddQuestionDialog } from "./add-question-dialog"
 import { Separator } from "@/components/ui/separator"
@@ -11,7 +11,7 @@ import { TooltipWrapper } from "@/components/ui/tooltip-wrapper"
 import { IconButton } from "@/components/ui/icon-button"
 
 export function FormActions() {
-    const { form } = useCreateForm()
+    const { form } = useFormBuilder()
     const { push } = useRouter()
 
     return (

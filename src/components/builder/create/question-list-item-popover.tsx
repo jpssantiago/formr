@@ -4,7 +4,7 @@ import { ReactNode } from "react"
 import { Copy, Trash2 } from "lucide-react"
 
 import { TQuestion } from "@/models/question"
-import { useCreateForm } from "@/contexts/create-form-context"
+import { useFormBuilder } from "@/contexts/use-form-builder"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { PopoverItem, PopoverItemIcon, PopoverItemText } from "@/components/ui/popover-item"
 
@@ -16,7 +16,7 @@ type QuestionListItemPopoverProps = {
 }
 
 export function QuestionListItemPopover({ question, children, show, setShow }: QuestionListItemPopoverProps) {
-    const { duplicateQuestion, deleteQuestion, questions } = useCreateForm()
+    const { duplicateQuestion, deleteQuestion, questions } = useFormBuilder()
 
     function onDuplicate() {
         duplicateQuestion(question)

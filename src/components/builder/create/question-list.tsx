@@ -2,11 +2,11 @@
 
 import { Reorder } from "framer-motion"
 
-import { useCreateForm } from "@/contexts/create-form-context"
+import { useFormBuilder } from "@/contexts/use-form-builder"
 import { QuestionListItem } from "./question-list-item"
 
 export function QuestionList() {
-    const { questions, selectedQuestion, selectQuestion, reorderQuestions } = useCreateForm()
+    const { questions, selectedQuestion, selectQuestion, reorderQuestions } = useFormBuilder()
 
     return (
         <div className="space-y-1 large:hidden bg-zinc-100 bg-scroll custom-scroll p-3 rounded-lg w-60 h-full overflow-y-auto">

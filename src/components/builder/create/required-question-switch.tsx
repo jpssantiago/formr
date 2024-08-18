@@ -1,11 +1,11 @@
 "use client"
 
-import { useCreateForm } from "@/contexts/create-form-context" 
+import { useFormBuilder } from "@/contexts/use-form-builder" 
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
 
 export function RequiredQuestionSwitch() {
-    const { selectedQuestion, updateQuestion } = useCreateForm()
+    const { selectedQuestion, updateQuestion } = useFormBuilder()
 
     return (
         <div className="flex justify-between items-center">
