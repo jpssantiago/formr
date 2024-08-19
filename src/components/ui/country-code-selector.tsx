@@ -17,11 +17,20 @@ export function CountryCodeSelector({ selected, onSelect }: CountryCodeSelectorP
 
     const ref = createRef<HTMLDivElement>()
 
-    const countries = search ? COUNTRIES.filter(c => c.name.toLowerCase().includes(search)) : COUNTRIES
+    const countries = search ? COUNTRIES.filter(c => {
+        let searchValue = search.replace("+", "")
+        return c.name.toLowerCase().includes(searchValue) || c.code.includes(searchValue)
+    }) : COUNTRIES
+
+    function handleSelect(country: Country) {
+        onSelect(country)
+        setSearch("")
+    }
 
     window.onclick = event => {
         if (!ref.current?.contains(event.target as Node)) {
             setOpen(false)
+            setSearch("")
         }
     }
 
@@ -54,7 +63,7 @@ export function CountryCodeSelector({ selected, onSelect }: CountryCodeSelectorP
                         <div 
                             key={index} 
                             className="flex justify-between items-center gap-5 hover:bg-zinc-100 px-2 border-b h-12 transition-colors cursor-pointer"
-                            onClick={() => onSelect(country)}
+                            onClick={() => handleSelect(country)}
                         >
                             <div className="flex items-center gap-2 truncate">
                                 <span>

@@ -1,6 +1,6 @@
 "use client"
 
-import { InputHTMLAttributes, forwardRef, useState } from "react"
+import { InputHTMLAttributes, LegacyRef, forwardRef, useState } from "react"
 import ReactInputMask from "react-input-mask"
 
 import { TQuestion } from "@/models/question"
@@ -16,7 +16,7 @@ type InputQuestionProps = InputHTMLAttributes<HTMLInputElement> & {
 
 const InputQuestion = forwardRef<HTMLInputElement, InputQuestionProps>(
     ({ question, readOnly = false, ...rest }, ref) => {
-        const [selectedCountry, setSelectedCountry] = useState<Country>(COUNTRIES.find(c => c.slug == "us")!)
+        const [selectedCountry, setSelectedCountry] = useState<Country>(COUNTRIES.find(c => c.slug == "united-states")!)
 
         let placeholder = ""
         let mask = ""
@@ -55,7 +55,7 @@ const InputQuestion = forwardRef<HTMLInputElement, InputQuestionProps>(
 
                 {mask ? (
                     <ReactInputMask
-                        inputRef={ref}
+                        ref={ref as LegacyRef<ReactInputMask>}
                         {...rest}
                         mask={mask}
                         placeholder={placeholder}

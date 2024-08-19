@@ -24,7 +24,13 @@ export function InputQuestionForm({ question, onContinue }: InputQuestionFormPro
             case "email":
                 return z.string().email()
             case "phoneNumber":
-                return z.string().min(4) // TODO: Validate the phone number
+                return z.string().refine(value => {
+                    ["_", "(", ")", "-", " "].forEach(char => {
+                        return value = value.replaceAll(char, "")
+                    })
+                    
+                    return value.length >= 4
+                })
             case "number":
                 return z.coerce.number()
             case "date":
