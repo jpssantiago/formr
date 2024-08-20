@@ -75,7 +75,7 @@ export function CreateFolderDialog({ children, onCreateFolder, asChild = false }
                 {children}
             </DialogTrigger>
 
-            <DialogContent className="rounded-lg">
+            <DialogContent>
                 <DialogHeader className="items-start text-start">
                     <DialogTitle>
                         Create a new folder
