@@ -32,8 +32,8 @@ const InputQuestion = forwardRef<HTMLInputElement, InputQuestionProps>(
                 placeholder = "123..."
                 break
             case "date":
-                placeholder = "dd/mm/yyyy"
-                mask = "99/99/9999"
+                placeholder = question.mask ?? "dd/mm/yyyy"
+                mask = question.mask?.startsWith("yyyy/") ? "9999/99/99" : "99/99/9999"
                 break
             case "phoneNumber":
                 placeholder = selectedCountry.mask ?? "phone number"
