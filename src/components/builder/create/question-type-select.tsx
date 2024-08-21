@@ -30,7 +30,8 @@ export function QuestionTypeSelect() {
                     minValue: undefined,
                     maxValue: undefined,
                     leftPlaceholder: undefined,
-                    rightPlaceholder: undefined
+                    rightPlaceholder: undefined,
+                    mask: undefined
                 })
             }}
         >

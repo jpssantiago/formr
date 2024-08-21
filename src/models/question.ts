@@ -14,4 +14,6 @@ export type TQuestion = {
 
     leftPlaceholder?: string
     rightPlaceholder?: string
+
+    mask?: string
 }

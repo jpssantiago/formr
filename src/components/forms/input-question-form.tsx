@@ -35,7 +35,6 @@ export function InputQuestionForm({ question, onContinue }: InputQuestionFormPro
                 return z.coerce.number()
             case "date":
                 return z.coerce.date()
-            // TODO: Let the user choose the format (ex: dd/mm/yyyy, mm/dd/yyyy, yyyy/mm/dd, yyyy/dd/mm)
             default:
                 const schema = z.string().min(question.minValue ?? 1)
                 return question.maxValue ? schema.max(question.maxValue) : schema

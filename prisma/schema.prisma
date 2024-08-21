@@ -110,6 +110,8 @@ model Question {
   leftPlaceholder String?
   rightPlaceholder String?
 
+  mask String?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

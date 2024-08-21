@@ -7,6 +7,7 @@ import { OpinionScaleOptions } from "./opinion-scale-options"
 import { QuestionTypeSelect } from "./question-type-select"
 import { RequiredQuestionSwitch } from "./required-question-switch"
 import { QuestionButtonTextInput } from "./question-button-text-input"
+import { DateQuestionFormatSelector } from "./date-question-format-selector"
 
 export function QuestionSettings() {
     const { selectedQuestion } = useFormBuilder()
@@ -26,6 +27,10 @@ export function QuestionSettings() {
 
                 {selectedQuestion?.type.slug == "opinionScale" && (
                     <OpinionScaleOptions />
+                )}
+
+                {selectedQuestion?.type.slug == "date" && (
+                    <DateQuestionFormatSelector />
                 )}
 
                 <Separator />
