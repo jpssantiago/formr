@@ -12,6 +12,7 @@ import { FormResponse, FormService } from "@/services/form-service"
 type UseFormBuilderContextType = {
     form?: TForm
     loadForm: (form: TForm) => void
+    saveForm: () => Promise<void>
 
     questions: TQuestion[]
     updateQuestion: (question: TQuestion) => void
@@ -42,13 +43,7 @@ export function CreateFormProvider({ children }: { children: ReactNode }) {
     const [isSaving, setIsSaving] = useState<boolean>(false)
     const [autoSave, setAutoSave] = useState<NodeJS.Timeout | null>(null)
     const [shouldSave, setShouldSave] = useState<boolean>(false)
-
-    function loadForm(form: TForm) {
-        setForm(form)
-        setQuestions(form.questions)
-        setSelectedQuestion(form.questions[0])
-    }
-
+    
     useEffect(() => {
         if (!form || !shouldSave) return
 
@@ -60,12 +55,24 @@ export function CreateFormProvider({ children }: { children: ReactNode }) {
         if (isSaving) return
 
         setAutoSave(setTimeout(async () => {
-            setIsSaving(true)
-            await QuestionService.saveQuestions(form.id, questions)
-            setIsSaving(false)
-            setShouldSave(false)
+            saveForm()
         }, 2500))
     }, [questions])
+
+    function loadForm(form: TForm) {
+        setForm(form)
+        setQuestions(form.questions)
+        setSelectedQuestion(form.questions[0])
+    }
+
+    async function saveForm() {
+        if (!form) return
+
+        setIsSaving(true)
+        await QuestionService.saveQuestions(form.id, questions)
+        setIsSaving(false)
+        setShouldSave(false)
+    }
 
     function updateQuestion(question: TQuestion) {
         if (!form) return
@@ -164,6 +171,7 @@ export function CreateFormProvider({ children }: { children: ReactNode }) {
     const value = {
         form,
         loadForm,
+        saveForm,
 
         questions,
         updateQuestion,
