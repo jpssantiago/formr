@@ -18,7 +18,7 @@ export default async function CreateFormPage() {
                     </div>
                 </div>
 
-                <div className="large:flex flex-col hidden overflow-y-hidden">
+                <div className="large:flex flex-col hidden h-full overflow-y-hidden">
                     <QuestionCardList />
                 </div>
             </div>

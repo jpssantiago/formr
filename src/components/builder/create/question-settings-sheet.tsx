@@ -11,13 +11,14 @@ import {
 import { QuestionSettings } from "./question-settings"
 
 type QuestionSettingsSheetProps = {
+    onClick: () => void
     children: ReactNode
 }
 
-export function QuestionSettingsSheet({ children }: QuestionSettingsSheetProps) {
+export function QuestionSettingsSheet({ onClick, children }: QuestionSettingsSheetProps) {
     return (
         <Sheet>
-            <SheetTrigger>
+            <SheetTrigger onClick={onClick}>
                 {children}
             </SheetTrigger>
 

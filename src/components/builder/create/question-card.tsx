@@ -16,7 +16,7 @@ type QuestionCardProps = {
 }
 
 export function QuestionCard({ question }: QuestionCardProps) {
-    const { duplicateQuestion, questions, deleteQuestion } = useFormBuilder()
+    const { duplicateQuestion, questions, deleteQuestion, selectQuestion } = useFormBuilder()
 
     const titleInputRef = createRef<HTMLTextAreaElement>()
     const descriptionInputRef = createRef<HTMLTextAreaElement>()
@@ -44,14 +44,14 @@ export function QuestionCard({ question }: QuestionCardProps) {
     }
 
     return (
-        <div className="flex flex-col shadow-lg border rounded-lg">
+        <div className="flex flex-col bg-white shadow-lg border rounded-lg">
             <div className="flex justify-between items-start gap-3 p-3">
                 <CreateQuestionForm
                     question={question}
                     mode="mobile"
                 />
 
-                <QuestionSettingsSheet>
+                <QuestionSettingsSheet onClick={() => selectQuestion(question)}>
                     <Settings
                         size={20}
                         className="mt-1 text-zinc-600 hover:text-black"
