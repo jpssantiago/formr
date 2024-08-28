@@ -1,7 +1,8 @@
 "use client"
 
 import { createRef, useEffect } from "react"
-import { Copy, Settings, Trash2 } from "lucide-react"
+import { Reorder, useDragControls } from "framer-motion"
+import { Copy, Grip, Settings, Trash2 } from "lucide-react"
 
 import { TQuestion } from "@/models/question"
 import { useFormBuilder } from "@/contexts/use-form-builder"
@@ -16,7 +17,8 @@ type QuestionCardProps = {
 }
 
 export function QuestionCard({ question }: QuestionCardProps) {
-    const { duplicateQuestion, questions, deleteQuestion } = useFormBuilder()
+    const { duplicateQuestion, questions, deleteQuestion, selectQuestion } = useFormBuilder()
+    const dragControls = useDragControls()
 
     const titleInputRef = createRef<HTMLTextAreaElement>()
     const descriptionInputRef = createRef<HTMLTextAreaElement>()
@@ -44,49 +46,63 @@ export function QuestionCard({ question }: QuestionCardProps) {
     }
 
     return (
-        <div className="flex flex-col shadow-lg border rounded-lg">
-            <div className="flex justify-between items-start gap-3 p-3">
-                <CreateQuestionForm
-                    question={question}
-                    mode="mobile"
-                />
-
-                <QuestionSettingsSheet>
-                    <Settings
-                        size={20}
-                        className="mt-1 text-zinc-600 hover:text-black"
+        <Reorder.Item
+            value={question}
+            dragListener={false}
+            dragControls={dragControls}
+        >
+            <div className="flex flex-col bg-white shadow-lg border rounded-lg">
+                <div className="flex justify-between items-start gap-3 p-3">
+                    <CreateQuestionForm
+                        question={question}
+                        mode="mobile"
                     />
-                </QuestionSettingsSheet>
-            </div>
 
-            <Separator className="mt-2" />
+                    <div className="flex items-center gap-3">
+                        <QuestionSettingsSheet onClick={() => selectQuestion(question)}>
+                            <Settings
+                                size={20}
+                                className="text-zinc-600 hover:text-black"
+                            />
+                        </QuestionSettingsSheet>
 
-            <div className="flex justify-between items-center bg-zinc-100 px-3 py-1">
-                <QuestionTypeBadge question={question} />
+                        <Grip
+                            size={20}
+                            className="text-zinc-600 hover:text-black"
+                            onPointerDown={(e) => dragControls.start(e)}
+                        />
+                    </div>
+                </div>
 
-                <div className="flex items-center gap-2">
-                    <TextIconButton
-                        icon={Copy}
-                        iconSize={18}
-                        variant="ghost"
-                        className="hover:bg-zinc-200 text-zinc-600 hover:text-black"
-                        onClick={onDuplicate}
-                    >
-                        Duplicate
-                    </TextIconButton>
+                <Separator className="mt-2" />
 
-                    <TextIconButton
-                        icon={Trash2}
-                        iconSize={18}
-                        variant="ghost"
-                        className="hover:bg-zinc-200 text-zinc-600 hover:text-black"
-                        onClick={onDelete}
-                        disabled={questions.length == 1}
-                    >
-                        Delete
-                    </TextIconButton>
+                <div className="flex justify-between items-center bg-zinc-100 px-3 py-1">
+                    <QuestionTypeBadge question={question} />
+
+                    <div className="flex items-center gap-2">
+                        <TextIconButton
+                            icon={Copy}
+                            iconSize={18}
+                            variant="ghost"
+                            className="hover:bg-zinc-200 text-zinc-600 hover:text-black"
+                            onClick={onDuplicate}
+                        >
+                            Duplicate
+                        </TextIconButton>
+
+                        <TextIconButton
+                            icon={Trash2}
+                            iconSize={18}
+                            variant="ghost"
+                            className="hover:bg-zinc-200 text-zinc-600 hover:text-black"
+                            onClick={onDelete}
+                            disabled={questions.length == 1}
+                        >
+                            Delete
+                        </TextIconButton>
+                    </div>
                 </div>
             </div>
-        </div>
+        </Reorder.Item>
     )
 }
