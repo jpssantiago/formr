@@ -14,19 +14,14 @@ export function QuestionCardList() {
             onReorder={reorderQuestions}
             axis="y"
             className="overflow-y-hidden"
+            layoutScroll
         >
-            <div className="flex flex-col gap-5 h-full overflow-y-scroll">
+            <div className="flex flex-col gap-5 h-full overflow-y-scroll select-none">
                 {questions.map(question => (
-                    <Reorder.Item
+                    <QuestionCard
                         key={question.id}
-                        value={question}
-                        className="relative z-50"
-                    >
-                        <QuestionCard
-                            key={question.id}
-                            question={question}
-                        />
-                    </Reorder.Item>
+                        question={question}
+                    />
                 ))}
             </div>
         </Reorder.Group>
